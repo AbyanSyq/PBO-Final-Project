@@ -26,13 +26,13 @@ public class GameHomebase extends HomeBase {
             if (element == Element.API) {
                 mons = new Api(key, level, exp, element);
             }else if (element == Element.TANAH){
-                
+                mons = new Tanah(key, level, exp, element);
             }else if (element == Element.ANGIN) {
-                
+                mons = new Angin(key, level, exp, element);
             }else if (element == Element.AIR) {
-                
+                mons = new Air(key, level, exp, element);
             }else if (element == Element.ES) {
-                
+                mons = new Es(key, level, exp, element);
             }
             monster.put(key, mons);
         }
