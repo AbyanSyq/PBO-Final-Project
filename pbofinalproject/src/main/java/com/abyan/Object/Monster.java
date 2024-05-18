@@ -10,9 +10,11 @@ public class Monster {
     private double hp;
     private double maksHp;
     private int level;
-    // private Element element;
+    protected Element element;
     private int exp;
     private double baseDamage;
+    
+    private boolean canEvolve;
 
     public Monster(String name, int level, int exp) {
         this.name = name;
@@ -43,9 +45,7 @@ public class Monster {
     }
 
     public void setLevel() {
-        // if else naik level
-        setByLV(this.level + 1);
-        ;
+        
     }
 
     public int getExp() {
@@ -85,7 +85,15 @@ public class Monster {
     // ==============================================================================================================================
 
     public int upLevel() {
+        if (this.exp >= LVManager.expToLvUp) {
+            this.exp -= LVManager.expToLvUp;
+        }else{
+            System.out.println("exp not enough");
+            return 0;
+        }
         this.level++;
+        setByLV(level);
+        canEvolve = true;
         return this.level;
     }
 
@@ -101,17 +109,21 @@ public class Monster {
         return baseDamage * 2;
     }
 
-    public double useItem(Item item) {
-        // super.setHp();
-        // super.getHp() += item.getEffect();
-        return item.getEffect();
-    }
-
     public Element getElement() {
-        return null;
+        return this.element;
     }
-
-    public void setElement(Element element) {
+    // ==============================================================================================================================
+    public String toString() {
+        return "Character{" +
+                "name='" + name + '\'' +
+                ", hp=" + hp +
+                ", maksHp=" + maksHp +
+                ", level=" + level +
+                ", element=" + element.toString().toLowerCase() +
+                ", exp=" + exp +
+                ", baseDamage=" + baseDamage +
+                ", canEvolve=" + canEvolve +
+                '}';
     }
 }
 

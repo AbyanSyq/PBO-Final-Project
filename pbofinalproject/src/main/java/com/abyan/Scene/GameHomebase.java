@@ -1,4 +1,5 @@
 package com.abyan.Scene;
+
 import com.abyan.Manager.*;
 import com.abyan.Object.*;
 import com.abyan.Scene.*;
@@ -7,56 +8,57 @@ import java.util.*;
 
 abstract class HomeBase {
     public abstract void storeMonster(Monster monster);
+
     public abstract void levelUpMonster(Monster monster);
-    public abstract void evolveMonster(Monster monster,Element element);
-    public abstract void enterDungeon(Monster monster);
+
+    public abstract Monster evolveMonster(Monster monster, Element element);
+
+    public abstract void enterDungeon(Monster monster0,Monster monster1,Monster monster2);
 }
 
 public class GameHomebase extends HomeBase {
-    public HashMap<String,Monster> monster = new HashMap();
-    
-    public Monster pickMonster(String name) {
-        
+    public static Monster pickMonster(String name) {
         return null;
     }
-    public void storeAllMonster() {
-        for (String key : GameManager.dataMonster.keySet()) {
-            String[] monsterData = GameManager.dataMonster.get(key);
-            int level = Integer.parseInt(monsterData[0]);
-            int exp = Integer.parseInt(monsterData[1]);
-            Element element = Element.getElementByValue(Integer.parseInt(monsterData[2]));
 
-            Monster mons = null;
-            if (element == Element.API) {
-                mons = new Api(key, level, exp, element);
-            }else if (element == Element.TANAH){
-                mons = new Tanah(key, level, exp, element);
-            }else if (element == Element.ANGIN) {
-                mons = new Angin(key, level, exp, element);
-            }else if (element == Element.AIR) {
-                mons = new Air(key, level, exp, element);
-            }else if (element == Element.ES) {
-                mons = new Es(key, level, exp, element);
-            }
-            monster.put(key, mons);
-        }
-    }
-    public void storeMonster(Monster monster){
-        this.monster.put(monster.getName(),monster);
+    public void storeMonster(Monster monster) {
+        Player.monsters.add(monster);
     }
 
     public void levelUpMonster(Monster monster) {
         monster.upLevel();
-        // Memilih monster mana yang ingin di lv up
     }
 
-    public void evolveMonster(Monster monster,Element element) {
-        monster.setElement(element);
-        // Memilih Monster yang dimaksud 
+    public Monster evolveMonster(Monster monster, Element element) {
+        if (Math.abs(monster.getElement().getValue() - element.getValue()) == 1) {
+            return evolving(monster, element);
+        } else {
+            System.out.println("Invalid evolution. Element change must be adjacent.");
+            return monster;
+        }
     }
 
-    public void enterDungeon(Monster monster) {
+    public Monster evolving(Monster monster, Element element) {
+        switch (element.getValue()) {
+            case 0:
+                return new Api(monster.getName(), monster.getLevel(), monster.getExp());
+            case 1:
+                return new Tanah(monster.getName(), monster.getLevel(), monster.getExp());
+            case 2:
+                return new Angin(monster.getName(), monster.getLevel(), monster.getExp());
+            case 3:
+                return new Air(monster.getName(), monster.getLevel(), monster.getExp());
+            case 4:
+                return new Es(monster.getName(), monster.getLevel(), monster.getExp());
+            default:
+                System.out.println("Evolve didn't work");
+                return monster;
+        }
+    }
+
+    public void enterDungeon(Monster monster0,Monster monster1,Monster monster2) {
+
         // Memasuki dungeon dengan sudah memilih monster
     }
 
-}   
+}

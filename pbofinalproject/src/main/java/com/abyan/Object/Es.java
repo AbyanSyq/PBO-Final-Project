@@ -4,11 +4,9 @@ import com.abyan.Object.*;
 import com.abyan.Scene.*;
 
 public class Es extends Monster {
-    private Element element;
-
-    public Es(String name, int level, int exp, Element element) {
+    public Es(String name, int level, int exp) {
         super(name, level, exp);
-        this.element = element;
+        this.element = Element.ES;
     }
 
     public Element getElement() {

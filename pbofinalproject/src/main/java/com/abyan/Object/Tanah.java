@@ -5,11 +5,9 @@ import com.abyan.Scene.*;
 
 
 public class Tanah extends Monster {
-    private Element element;
-
-    public Tanah(String name, int level, int exp, Element element) {
+    public Tanah(String name, int level, int exp) {
         super(name, level, exp);
-        this.element = element;
+        this.element = Element.TANAH;
     }
 
     public Element getElement() {

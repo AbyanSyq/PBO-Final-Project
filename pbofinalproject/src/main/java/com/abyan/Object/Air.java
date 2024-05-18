@@ -4,11 +4,9 @@ import com.abyan.Object.*;
 import com.abyan.Scene.*;
 
 public class Air extends Monster {
-    private Element element;
-
-    public Air(String name, int level, int exp, Element element) {
+    public Air(String name, int level, int exp) {
         super(name, level, exp);
-        this.element = element;
+        this.element = Element.AIR;
     }
 
     public Element getElement() {

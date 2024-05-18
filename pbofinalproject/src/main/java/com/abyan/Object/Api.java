@@ -4,11 +4,10 @@ import com.abyan.Object.*;
 import com.abyan.Scene.*;
 
 public class Api extends Monster {
-    private Element element;
-
-    public Api(String name, int level, int exp, Element element) {
+    public Api(String name, int level, int exp) {
         super(name, level, exp);
-        this.element = element;
+        System.out.println("helo");
+        this.element = Element.API;
     }
 
     public Element getElement() {

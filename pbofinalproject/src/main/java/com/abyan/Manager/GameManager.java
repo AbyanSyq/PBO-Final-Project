@@ -5,18 +5,25 @@ import com.abyan.Scene.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class GameManager {
     public static String fileMonster = null;
-    public static HashMap<String, String[]> dataMonster = new HashMap<>();
+    public static String fileItem = null;
     public static HashMap<String, String[]> dataAkun = new HashMap<>();
     private static String loggedInUser = null;
+
+    private static final String DATA_PATH = "D:\\S2\\PBO\\PBO-Final-Project\\Data\\";
 
     public static String login(Scanner scanner) {
         System.out.print("Enter username: ");
@@ -58,54 +65,54 @@ public class GameManager {
         return username;
     }
 
-
-    public static void saveData(String fileName,ArrayList<Monster> monsterList){
-        for (Monster monster : monsterList) {
-            String key = monster.getName();
-            String[] value = new String[]{
-                Integer.toString(monster.getElement().getValue()),
-                Integer.toString(monster.getLevel()),
-                Integer.toString(monster.getExp())
-            };
-            dataMonster.put(key, value);
-        }
-        saveData(fileName, dataMonster);
+    public static void saveDataMonster(String fileName, ArrayList<Monster> monsterList) {
+        saveObjectData(DATA_PATH + fileName, monsterList);
     }
 
-    public static void saveData(String fileName, HashMap<String, String[]> data) {
+    public static void saveDataItem(String fileName, ArrayList<Item> itemList) {
+        saveObjectData(DATA_PATH + fileName, itemList);
+    }
+
+    private static <T> void saveObjectData(String fileName, ArrayList<T> dataList) {
+        File file = new File(fileName);
+        // Ensure the directory exists
+        file.getParentFile().mkdirs();
+        // If the file does not exist, create a new file
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-            for (String key : data.keySet()) {
-                String[] value = data.get(key);
-                String line = key + "," + String.join(",", value);
-                writer.write(line);
-                writer.newLine();
+            if (!file.exists()) {
+                file.createNewFile();
             }
-            writer.flush(); 
-            writer.close();
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file))) {
+                oos.writeObject(dataList);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static HashMap<String, String[]> loadData(String fileName) {
-        HashMap<String, String[]> data = new HashMap<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
-                String key = parts[0];
-                String[] value = new String[parts.length - 1];
-                System.arraycopy(parts, 1, value, 0, parts.length - 1);
-                data.put(key, value);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    @SuppressWarnings("unchecked")
+    private static <T> ArrayList<T> loadObjectData(String fileName) {
+        File file = new File(fileName);
+        if (!file.exists()) {
+            // Return an empty ArrayList if the file does not exist
+            return new ArrayList<>();
         }
-        return data;
+        System.out.println("exist");
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
+            return (ArrayList<T>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
-    public static void setFile(String name){
-        fileMonster = name+"Monster.csv";
+    public static void loadAllData() {
+        Player.monsters = loadObjectData(DATA_PATH + fileMonster);
+        Player.items = loadObjectData(DATA_PATH + fileItem);
+    }
+
+    public static void setFile(String name) {
+        fileMonster = name + "Monster.dat";
+        fileItem = name + "Item.dat";
     }
 }
