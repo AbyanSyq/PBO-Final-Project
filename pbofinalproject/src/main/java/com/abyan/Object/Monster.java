@@ -11,6 +11,7 @@ public class Monster {
     private int level;
     private double hp;
     protected double mp;
+    protected double ep;
 
     protected double maksHp;
     protected double baseDamage;
@@ -18,7 +19,7 @@ public class Monster {
     
     private boolean canEvolve;
     
-    public Monster(String name, int level,double maksHp, double baseDamage,double maksMp) {
+    public Monster(String name, int level,double maksHp, double baseDamage,double maksMp,double ep) {
         this.name = name;
         this.level = level;
         this.hp = maksHp;
@@ -26,6 +27,7 @@ public class Monster {
         this.maksHp = maksHp;
         this.maksMp = maksMp;
         this.baseDamage = baseDamage;
+        this.ep = ep;
         setByLV(level);
     }
     
@@ -89,6 +91,13 @@ public class Monster {
     public void setMaksMp(double maksMp) {
         this.maksMp = maksMp;
     }
+    public double getEp() {
+        return ep;
+    }
+
+    public void setEp(double ep) {
+        this.ep = ep;
+    }
     // ==============================================================================================================================
     
     public void takeDamage(double damage){
@@ -135,7 +144,7 @@ public class Monster {
                 '}';
     }
     public String saveData(){
-        return name+","+element.getValue()+","+level+","+maksHp+","+baseDamage+","+maksMp;
+        return name+","+element.getValue()+","+level+","+maksHp+","+baseDamage+","+maksMp+","+ep;
     }
 }
 

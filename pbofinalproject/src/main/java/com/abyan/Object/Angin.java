@@ -6,8 +6,8 @@ import com.abyan.Scene.*;
 public class Angin extends Monster { 
     public double mpUsage = mp; 
 
-    public Angin(String name, int level,double maksHp, double baseDamage,double maksMp) {
-        super(name, level, maksHp, baseDamage, maksMp);
+    public Angin(String name, int level,double maksHp, double baseDamage,double maksMp,double ep) {
+        super(name, level, maksHp, baseDamage, maksMp, ep);
         this.element = Element.ANGIN;
     }
 

@@ -1,5 +1,6 @@
 package com.abyan.Manager;
 
+
 import com.abyan.Manager.*;
 import com.abyan.Object.*;
 import com.abyan.Scene.*;
@@ -31,11 +32,11 @@ public class GameManager {
 
     //private static final String DATA_PATH = "D:\\S2\\PBO\\PBO-Final-Project\\Data\\";
 
-    public static String login(Scanner scanner) {
-        System.out.print("Enter username: ");
-        String username = scanner.nextLine();
-        System.out.print("Enter password: ");
-        String password = scanner.nextLine();
+    public static String login(String username, String password) {
+        // System.out.print("Enter username: ");
+        // String username = scanner.nextLine();
+        // System.out.print("Enter password: ");
+        // String password = scanner.nextLine();
 
         if (dataAkun.containsKey(username) && dataAkun.get(username)[0].equals(password)) {
             System.out.println("Login successful. Welcome, " + username + "!");
@@ -55,19 +56,20 @@ public class GameManager {
         }
     }
 
-    public static String signUp(Scanner scanner) {
+    public static String signUp(String username, String password) {
         System.out.print("Enter new username: ");
-        String username = scanner.nextLine();
+        // String username = scanner.nextLine();
         if (dataAkun.containsKey(username)) {
             System.out.println("Username already exists. Please choose a different username.");
             return null;
         }
-        System.out.print("Enter password: ");
-        String password = scanner.nextLine();
-        System.out.print("Enter profile photo path: ");
-        String profilePhotoPath = scanner.nextLine();
+        // System.out.print("Enter password: ");
+        // String password = scanner.nextLine();
+        // System.out.print("Enter profile photo path: ");
+        // String profilePhotoPath = scanner.nextLine();
+        String profilePhotoPath = null;
 
-        dataAkun.put(username, new String[] {password, profilePhotoPath});
+        dataAkun.put(username, new String[] {password, profilePhotoPath,"0"});
         System.out.println("Sign up successful. You can now log in with your new account.");
         return username;
     }
@@ -106,7 +108,7 @@ public class GameManager {
     }
     public static void saveMonsters(ArrayList<Monster> monsters) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileMonster))) {
-            writer.write("name,element,level,maksHp,baseDamage,maksMp\n");
+            writer.write("name,element,level,maksHp,baseDamage,maksMp,ep\n");
             for (Monster monster : monsters) {
                 writer.write(monster.saveData());
                 writer.write("\n");
@@ -126,13 +128,16 @@ public class GameManager {
             reader.readLine(); // skip header line
             while ((line = reader.readLine()) != null) {
                 String[] attributes = line.split(",");
-                String name = attributes[0];
-                Element element = Element.getElementByValue(Integer.parseInt(attributes[1]));
-                int level = Integer.parseInt(attributes[2]);
-                double maksHp = Double.parseDouble(attributes[3]);
-                double baseDamage = Double.parseDouble(attributes[4]);
-                double maksMp = Double.parseDouble(attributes[5]);
-                monsters.add(monsterGen(name,element, level, maksHp, baseDamage, maksMp));
+                if (attributes.length == 7) {
+                    String name = attributes[0];
+                    Element element = Element.getElementByValue(Integer.parseInt(attributes[1]));
+                    int level = Integer.parseInt(attributes[2]);
+                    double maksHp = Double.parseDouble(attributes[3]);
+                    double baseDamage = Double.parseDouble(attributes[4]);
+                    double maksMp = Double.parseDouble(attributes[5]);
+                    double ep = Double.parseDouble(attributes[6]);
+                    monsters.add(monsterGen(name,element, level, maksHp, baseDamage, maksMp,ep));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -169,23 +174,23 @@ public class GameManager {
         return random.nextInt((max - min) + 1) + min;
     }
 
-    public static Monster monsterGen(String name, Element element, int level, double maksHp, double baseDamage,double maksMp) {
+    public static Monster monsterGen(String name, Element element, int level, double maksHp, double baseDamage,double maksMp,double ep) {
         Monster newMonster = null;
         switch (element.getValue()) {
             case 0:
-                newMonster = new Api(name, level, maksHp, baseDamage, maksMp);
+                newMonster = new Api(name, level, maksHp, baseDamage, maksMp,ep);
                 break;
             case 1:
-                newMonster = new Tanah(name, level, maksHp, baseDamage, maksMp);
+                newMonster = new Tanah(name, level, maksHp, baseDamage, maksMp,ep);
                 break;
             case 2:
-                newMonster = new Angin(name, level, maksHp, baseDamage, maksMp);
+                newMonster = new Angin(name, level, maksHp, baseDamage, maksMp,ep);
                 break;
             case 3:
-                newMonster = new Air(name, level, maksHp, baseDamage, maksMp);
+                newMonster = new Air(name, level, maksHp, baseDamage, maksMp,ep);
                 break;
             case 4:
-                newMonster = new Es(name, level, maksHp, baseDamage, maksMp);
+                newMonster = new Es(name, level, maksHp, baseDamage, maksMp,ep);
                 break;
             default:
                 break;
@@ -194,21 +199,23 @@ public class GameManager {
     }
 
     public static Monster randomMonsterGen(String nama, Element element) {
-        return monsterGen(nama,element,1, randomNum(90, 110), randomNum(15, 25), randomNum(80, 100));
+        return monsterGen(nama,element,1, randomNum(90, 110), randomNum(15, 25), randomNum(80, 100),0);
     }
 
     public static void main(String[] args) {
         Scanner scan  = new Scanner(System.in);
+        //saveData();
         setFile("abyan");
         loadData();
-        signUp(scan);
-        login(scan);
+        System.out.println(dataAkun.size());
+        //signUp(scan);
+        login("abyan","123");
 
-        Monster monster1 = monsterGen("Dragon", Element.AIR, 1, 150.5, 35.0, 50.0);
-        Monster monster2 = monsterGen("Goblin", Element.API, 1, 80.0, 15.0, 20.0);
-        Player.monsters.add(monster1);
-        Player.monsters.add(monster2);
-
+        // Monster monster1 = monsterGen("Dragon", Element.AIR, 1, 150.5, 35.0, 50.0,0);
+        // Monster monster2 = monsterGen("yoga", Element.API, 1, 80.0, 15.0, 20.0,0);
+        // Player.monsters.add(monster1);
+        // Player.monsters.add(monster2);
+ 
         // Player.monsters.add(monsterGen("Dragon", Element.AIR, 1, 150.5, 35.0, 50.0));
         // Player.monsters.add(monsterGen("Goblin", Element.API, 1, 80.0, 15.0, 20.0));
 
