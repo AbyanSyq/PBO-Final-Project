@@ -4,8 +4,8 @@ import com.abyan.Object.*;
 import com.abyan.Scene.*;
 
 public class Air extends Monster {
-    public Air(String name, int level, int exp) {
-        super(name, level, exp);
+    public Air(String name, int level,double maksHp, double baseDamage,double maksMp) {
+        super(name, level, maksHp, baseDamage, maksMp);
         this.element = Element.AIR;
     }
 
@@ -13,18 +13,10 @@ public class Air extends Monster {
         return element;
     }
 
-    public void setElement(Element element) {
-        if (Math.abs(this.element.getValue() - element.getValue()) == 1) {
-            this.element = element;
-            return;
-        } else {
-            System.out.println("Invalid evolution. Element change must be adjacent.");
-            return;
-        }
-    }
-
-    public double elementAttack() {
-        // if else buat cek
+    public double elementAttack(Monster monster) {
+        if (!(super.element.getValue() + 1 == monster.getElement().getValue())) {
+            return super.getBaseDamage()/2;
+        } 
         return super.getBaseDamage() * 1.5;
     }
 }

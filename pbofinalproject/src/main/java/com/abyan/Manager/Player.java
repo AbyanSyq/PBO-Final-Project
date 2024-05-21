@@ -11,9 +11,8 @@ import java.util.Scanner;
 public class Player {
     public static String name;
     public static String profilPath;
+    public static int ep;
 
     public static ArrayList<Item> items = new ArrayList<>();
     public static ArrayList<Monster> monsters = new ArrayList<>();
-
-    
 }

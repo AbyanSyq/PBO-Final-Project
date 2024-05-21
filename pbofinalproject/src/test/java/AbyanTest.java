@@ -12,22 +12,21 @@ import static org.junit.Assume.assumeTrue;
 public class AbyanTest {
     @Test
     public void abyanBenar() {
-        Monster monster = new Tanah("yoga", 1, 0);
+        //Monster monster = new Tanah("yoga", 1, 0);
 
         //assertEquals(1, monster.getElement().value);
         
     }
     public static void main(String[] args) {
         GameHomebase gameHomebase = new GameHomebase();
-        Player.monsters.add(new Api("gg", 1, 0));
-        Player.monsters.add(new Air("halo", 2, 0));
+        Player.monsters.add(new Api(null, 0, 0, 0, 0));
+        Player.monsters.add(new Air(null, 0, 0, 0, 0));
 
         for (Monster string : Player.monsters) {
             System.out.println(string.toString());
             System.out.println();
         }
         Player.monsters.set(0, gameHomebase.evolveMonster(Player.monsters.get(0), Element.TANAH));
-        Player.monsters.get(0).setExp(1000);;
         Player.monsters.get(0).upLevel();
 
         for (Monster string : Player.monsters) {

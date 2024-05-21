@@ -7,106 +7,116 @@ import java.util.*;
 
 public class Monster {
     private String name;
-    private double hp;
-    private double maksHp;
-    private int level;
     protected Element element;
-    private int exp;
-    private double baseDamage;
+    private int level;
+    private double hp;
+    protected double mp;
+
+    protected double maksHp;
+    protected double baseDamage;
+    protected double maksMp;
     
     private boolean canEvolve;
-
-    public Monster(String name, int level, int exp) {
+    
+    public Monster(String name, int level,double maksHp, double baseDamage,double maksMp) {
         this.name = name;
-        this.hp = LVManager.getMaksHpByLv(level);
+        this.level = level;
+        this.hp = maksHp;
+        this.mp = maksMp;
+        this.maksHp = maksHp;
+        this.maksMp = maksMp;
+        this.baseDamage = baseDamage;
         setByLV(level);
-        this.level = level;
-        // this.element = element;
-        this.exp = exp;
     }
-
+    
     private void setByLV(int level) {
-        this.setMaksHp(LVManager.getMaksHpByLv(level));
-        this.setBaseDamage(LVManager.getBaseDamageByLv(level));
+        this.maksHp = maksHp * level;
+        this.baseDamage = baseDamage * level;
+        this.maksMp = this.maksMp * level;
         this.level = level;
     }
-
+    
     // ==============================================================================================================================
     public String getName() {
         return name;
     }
-
+    
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public int getLevel() {
         return level;
     }
-
+    
     public void setLevel() {
         
     }
-
-    public int getExp() {
-        return exp;
-    }
-
-    public void setExp(int exp) {
-        this.exp = exp;
-    }
-
+    
     public double getBaseDamage() {
         return baseDamage;
     }
-
+    
     public void setBaseDamage(double baseDamage) {
         this.baseDamage = baseDamage;
     }
-
+    
     public int getHp() {//aodujfnaposdunfpoausdnfpdoun
         return (int)hp;
     }
-
+    
     public void setHp(double hp) {//
         this.hp = hp;
         if (this.hp > maksHp) {
             this.hp = maksHp;
         }
     }
-
+    
     public double getMaksHp() {
         return this.maksHp;
     }
-
+    
     public void setMaksHp(double maksHp) {
         this.maksHp = maksHp;
     }
-    // ==============================================================================================================================
+    public boolean getCanEvolve(){
+        return canEvolve;
+    }
+    public double getMaksMp() {
+        return maksMp;
+    }
 
+    public void setMaksMp(double maksMp) {
+        this.maksMp = maksMp;
+    }
+    // ==============================================================================================================================
+    
+    public void takeDamage(double damage){
+        setHp(this.hp - damage);
+    }
     public int upLevel() {
-        if (this.exp >= LVManager.expToLvUp) {
-            this.exp -= LVManager.expToLvUp;
-        }else{
-            System.out.println("exp not enough");
-            return 0;
-        }
         this.level++;
         setByLV(level);
         canEvolve = true;
         return this.level;
     }
-
+    
     public void heal(double hp) {
-        setHp(this.getHp() + hp);
+        setHp(this.hp + hp);
     }
 
-    public double basicAttack() {
+    public double basicAttack(Monster monster) {
+        monster.takeDamage(baseDamage);;
         return baseDamage;
     }
 
-    public double specialAttack() {
+    public double specialAttack(Monster monster) {
+        monster.takeDamage(baseDamage * 1.5);
+        takeDamage(baseDamage * 0.5);
         return baseDamage * 2;
+    }
+    public double elementAttack(Monster monster){
+        return 0;
     }
 
     public Element getElement() {
@@ -120,10 +130,12 @@ public class Monster {
                 ", maksHp=" + maksHp +
                 ", level=" + level +
                 ", element=" + element.toString().toLowerCase() +
-                ", exp=" + exp +
                 ", baseDamage=" + baseDamage +
                 ", canEvolve=" + canEvolve +
                 '}';
+    }
+    public String saveData(){
+        return name+","+element.getValue()+","+level+","+maksHp+","+baseDamage+","+maksMp;
     }
 }
 

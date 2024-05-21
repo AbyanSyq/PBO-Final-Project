@@ -18,11 +18,10 @@ public class GameManagerTest {
     public static void main(String[] args) {
         GameHomebase gameHomebase = new GameHomebase();
         Player player = new Player();
-        Player.monsters.add(new Monster("halo", 0, 0));
+        //Player.monsters.add(new Monster("halo", 0, 0));
 
         GameManager.setFile("abyan");
-        GameManager.saveDataMonster(GameManager.fileMonster, Player.monsters);
-        GameManager.loadAllData();
-        
+        //GameManager.saveDataMonster(GameManager.fileMonster, Player.monsters);
+        GameManager.loadData();
     }
 }

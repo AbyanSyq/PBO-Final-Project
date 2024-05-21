@@ -30,6 +30,10 @@ public class GameHomebase extends HomeBase {
     }
 
     public Monster evolveMonster(Monster monster, Element element) {
+        if (!monster.getCanEvolve()) {
+            System.out.println("anda hanya dapat evolusi 1 kali dalam 1 level");
+            return monster;
+        }
         if (Math.abs(monster.getElement().getValue() - element.getValue()) == 1) {
             return evolving(monster, element);
         } else {
@@ -41,15 +45,15 @@ public class GameHomebase extends HomeBase {
     public Monster evolving(Monster monster, Element element) {
         switch (element.getValue()) {
             case 0:
-                return new Api(monster.getName(), monster.getLevel(), monster.getExp());
+                return new Api(monster.getName(), monster.getLevel(),monster.getMaksHp(),monster.getBaseDamage(),monster.getMaksMp());
             case 1:
-                return new Tanah(monster.getName(), monster.getLevel(), monster.getExp());
+                return new Tanah(monster.getName(), monster.getLevel(),monster.getMaksHp(),monster.getBaseDamage(),monster.getMaksMp());
             case 2:
-                return new Angin(monster.getName(), monster.getLevel(), monster.getExp());
+                return new Angin(monster.getName(), monster.getLevel(),monster.getMaksHp(),monster.getBaseDamage(),monster.getMaksMp());
             case 3:
-                return new Air(monster.getName(), monster.getLevel(), monster.getExp());
+                return new Air(monster.getName(), monster.getLevel(),monster.getMaksHp(),monster.getBaseDamage(),monster.getMaksMp());
             case 4:
-                return new Es(monster.getName(), monster.getLevel(), monster.getExp());
+                return new Es(monster.getName(), monster.getLevel(),monster.getMaksHp(),monster.getBaseDamage(),monster.getMaksMp());
             default:
                 System.out.println("Evolve didn't work");
                 return monster;
