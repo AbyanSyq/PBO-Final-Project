@@ -1,6 +1,7 @@
 package com.abyan.Manager;
 
 
+import com.abyan.Frame.LoginFrame;
 import com.abyan.Manager.*;
 import com.abyan.Object.*;
 import com.abyan.Scene.*;
@@ -40,6 +41,10 @@ public class GameManager {
 
         if (dataAkun.containsKey(username) && dataAkun.get(username)[0].equals(password)) {
             System.out.println("Login successful. Welcome, " + username + "!");
+            setFile(username);
+            loadData();
+            saveData();
+            loadPlayerData(username);
             return username;
         } else {
             System.out.println("Invalid username or password.");
@@ -59,6 +64,7 @@ public class GameManager {
     public static String signUp(String username, String password) {
         System.out.print("Enter new username: ");
         // String username = scanner.nextLine();
+
         if (dataAkun.containsKey(username)) {
             System.out.println("Username already exists. Please choose a different username.");
             return null;
@@ -71,6 +77,13 @@ public class GameManager {
 
         dataAkun.put(username, new String[] {password, profilePhotoPath,"0"});
         System.out.println("Sign up successful. You can now log in with your new account.");
+        Monster newMonster = new Api(username,1, 80.0, 15.0, 20.0,0);
+        Player.monsters.add(newMonster);
+        setFile(username);
+        saveAkun(dataAkun);
+        loadData();
+        saveData();
+        loadPlayerData(username);
         return username;
     }
     public static void saveAkun(HashMap<String, String[]> userData) {
@@ -144,6 +157,13 @@ public class GameManager {
         }
         return monsters;
     }
+    public static void loadPlayerData(String username){
+        String[] playerData = dataAkun.get(username);
+
+        Player.name = username;
+        Player.profilPath = playerData[1];
+        Player.ep = Integer.parseInt(playerData[2]);
+    }
 
     public static void saveData(){
         saveAkun(dataAkun);
@@ -154,9 +174,12 @@ public class GameManager {
         if ((checkFileExists(fileAkun))) { 
             dataAkun = loadAkun();
         }
-        if ((checkFileExists(fileMonster))) {
+        if (fileMonster !=null) {
+            if ((checkFileExists(fileMonster))) {
             Player.monsters = loadMonsters();
+            }
         }
+        
     }
 
     public static void setFile(String name) {
@@ -198,9 +221,6 @@ public class GameManager {
         return newMonster;
     }
 
-    public static Monster randomMonsterGen(String nama, Element element) {
-        return monsterGen(nama,element,1, randomNum(90, 110), randomNum(15, 25), randomNum(80, 100),0);
-    }
 
     public static void main(String[] args) {
         Scanner scan  = new Scanner(System.in);

@@ -15,4 +15,11 @@ public class Player {
 
     public static ArrayList<Item> items = new ArrayList<>();
     public static ArrayList<Monster> monsters = new ArrayList<>();
+
+
+    public static String playerInfo(){
+        return "name       =" + name + '\n' +
+                "Ep         =" + ep +'\n' 
+                ;
+    }
 }

@@ -6,30 +6,36 @@ import com.abyan.Scene.*;
 
 import java.util.*;
 
-abstract class HomeBase {
-    public abstract void storeMonster(Monster monster);
+// abstract class HomeBase {
+//     public abstract void storeMonster(Monster monster);
 
-    public abstract void levelUpMonster(Monster monster);
+//     public abstract void levelUpMonster(Monster monster);
 
-    public abstract Monster evolveMonster(Monster monster, Element element);
+//     public abstract Monster evolveMonster(Monster monster, Element element);
 
-    public abstract void enterDungeon(Monster monster0,Monster monster1,Monster monster2);
-}
+//     public abstract void enterDungeon(Monster monster0,Monster monster1,Monster monster2);
+// }
 
-public class GameHomebase extends HomeBase {
+public class GameHomebase  {
     public static Monster pickMonster(String name) {
         return null;
     }
 
-    public void storeMonster(Monster monster) {
+    public static void storeMonster(Monster monster) {
         Player.monsters.add(monster);
     }
-
-    public void levelUpMonster(Monster monster) {
+    public static void levelUpMonster(int n) {
+        Player.monsters.get(n).upLevel();
+    }
+    public static void levelUpMonster(Monster monster) {
         monster.upLevel();
     }
+    public static void evolveMonster(int n, Element element){
+        Monster temp = Player.monsters.get(n);
+        Player.monsters.set(n, evolveMonster(temp, element));
+    }
 
-    public Monster evolveMonster(Monster monster, Element element) {
+    public static Monster evolveMonster(Monster monster, Element element) {
         if (!monster.getCanEvolve()) {
             System.out.println("anda hanya dapat evolusi 1 kali dalam 1 level");
             return monster;
@@ -42,7 +48,7 @@ public class GameHomebase extends HomeBase {
         }
     }
 
-    public Monster evolving(Monster monster, Element element) {
+    public static Monster evolving(Monster monster, Element element) {
         switch (element.getValue()) {
             case 0:
                 return new Api(monster.getName(), monster.getLevel(),monster.getMaksHp(),monster.getBaseDamage(),monster.getMaksMp(),monster.getEp());
@@ -60,7 +66,7 @@ public class GameHomebase extends HomeBase {
         }
     }
 
-    public void enterDungeon(Monster monster0,Monster monster1,Monster monster2) {
+    public static void enterDungeon(Monster monster0,Monster monster1,Monster monster2) {
 
         // Memasuki dungeon dengan sudah memilih monster
     }

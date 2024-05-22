@@ -8,8 +8,8 @@ import java.awt.event.ActionListener;
 public class MonsterPanel extends JFrame {
     private JLabel monsterLabel;
     private String[] monsterImages = {
-        "air 1.png",  // Ganti dengan path gambar monster pertama
-        "mosnter.png"   // Ganti dengan path gambar monster kedua
+        "air1.png",  // Ganti dengan path gambar monster pertama
+        "air2.png"   // Ganti dengan path gambar monster kedua
     };
     private int currentMonsterIndex = 0;
 

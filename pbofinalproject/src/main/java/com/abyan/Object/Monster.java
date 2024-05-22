@@ -12,13 +12,23 @@ public class Monster {
     private double hp;
     protected double mp;
     protected double ep;
+    private boolean canEvolve;
 
     protected double maksHp;
     protected double baseDamage;
     protected double maksMp;
+
+    protected String imagePath;
+
+    protected double defaultmaksHp;
+    protected double defaultbaseDamage;
+    protected double defaultmaksMp;
+
     
-    private boolean canEvolve;
-    
+    public String getImagePath() {
+        return imagePath;
+    }
+
     public Monster(String name, int level,double maksHp, double baseDamage,double maksMp,double ep) {
         this.name = name;
         this.level = level;
@@ -28,13 +38,12 @@ public class Monster {
         this.maksMp = maksMp;
         this.baseDamage = baseDamage;
         this.ep = ep;
-        setByLV(level);
     }
     
     private void setByLV(int level) {
-        this.maksHp = maksHp * level;
-        this.baseDamage = baseDamage * level;
-        this.maksMp = this.maksMp * level;
+        this.maksHp = maksHp + defaultmaksHp;
+        this.baseDamage = baseDamage + defaultbaseDamage;
+        this.maksMp = maksMp +  defaultmaksMp/2;
         this.level = level;
     }
     
@@ -133,18 +142,38 @@ public class Monster {
     }
     // ==============================================================================================================================
     public String toString() {
-        return "Character{" +
-                "name='" + name + '\'' +
-                ", hp=" + hp +
-                ", maksHp=" + maksHp +
-                ", level=" + level +
-                ", element=" + element.toString().toLowerCase() +
-                ", baseDamage=" + baseDamage +
-                ", canEvolve=" + canEvolve +
+        return 
+                "name       ='" + name + '\n' +
+                //"hp         =" + hp +'\n' +
+                //"maksHp     =" + maksHp +'\n' +
+                "level      =" + level +'\n' +
+                "element    =" + element.toString().toLowerCase() +'\n' +
+                //"baseDamage =" + baseDamage +'\n' +
+                "canEvolve  =" + canEvolve +'\n' +
                 '}';
     }
     public String saveData(){
-        return name+","+element.getValue()+","+level+","+maksHp+","+baseDamage+","+maksMp+","+ep;
+        return name+","+element.getValue()+","+level+","+maksHp  +","+baseDamage +","+maksMp+","+ep;
+    }
+
+    public void setElement(Element element) {
+        this.element = element;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public double getMp() {
+        return mp;
+    }
+
+    public void setMp(double mp) {
+        this.mp = mp;
+    }
+
+    public void setCanEvolve(boolean canEvolve) {
+        this.canEvolve = canEvolve;
     }
 }
 
