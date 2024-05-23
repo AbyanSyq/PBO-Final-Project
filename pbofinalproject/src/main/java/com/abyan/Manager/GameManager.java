@@ -73,9 +73,9 @@ public class GameManager {
         // String password = scanner.nextLine();
         // System.out.print("Enter profile photo path: ");
         // String profilePhotoPath = scanner.nextLine();
-        String profilePhotoPath = null;
+        String profilePhotoPath = "Data_akun/defaultProfile.jpg";
 
-        dataAkun.put(username, new String[] {password, profilePhotoPath,"0"});
+        dataAkun.put(username, new String[] {password, profilePhotoPath,"0","0","0"});
         System.out.println("Sign up successful. You can now log in with your new account.");
         Monster newMonster = new Api(username,1, 80.0, 15.0, 20.0,0);
         Player.monsters.add(newMonster);
@@ -88,7 +88,7 @@ public class GameManager {
     }
     public static void saveAkun(HashMap<String, String[]> userData) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileAkun))) {
-            writer.write("username,password,photoProfilePath,exp\n"); // Menulis header
+            writer.write("username,password,photoProfilePath,exp,heal Potion,damage potion\n"); // Menulis header
             for (String username : userData.keySet()) {
                 String[] values = userData.get(username);
                 String line = username + "," + String.join(",", values);
@@ -107,9 +107,9 @@ public class GameManager {
             reader.readLine(); // Skip header
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
-                if (parts.length == 4) {
+                if (parts.length == 6) {
                     String username = parts[0];
-                    String[] values = new String[]{parts[1], parts[2], parts[3]};
+                    String[] values = new String[]{parts[1], parts[2], parts[3], parts[4], parts[5]};
                     userData.put(username, values);
                 }
             }
@@ -163,6 +163,8 @@ public class GameManager {
         Player.name = username;
         Player.profilPath = playerData[1];
         Player.ep = Integer.parseInt(playerData[2]);
+        Player.healPotion = Integer.parseInt(playerData[3]);
+        Player.damagePotion = Integer.parseInt(playerData[4]);
     }
 
     public static void saveData(){
@@ -171,6 +173,8 @@ public class GameManager {
         //saveItem(Player.items);
     }
     public static void loadData() {
+        Player.items.add(new healPotion());
+        Player.items.add(new increaseDamagePotion());
         if ((checkFileExists(fileAkun))) { 
             dataAkun = loadAkun();
         }

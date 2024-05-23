@@ -5,7 +5,7 @@ import com.abyan.Scene.*;
 import com.abyan.Scene.*;
 import java.util.*;
 
-public class Monster {
+public class Monster  implements Pertarungan{
     private String name;
     protected Element element;
     private int level;
@@ -40,11 +40,11 @@ public class Monster {
         this.ep = ep;
     }
     
-    private void setByLV(int level) {
-        this.maksHp = maksHp + defaultmaksHp;
-        this.baseDamage = baseDamage + defaultbaseDamage;
-        this.maksMp = maksMp +  defaultmaksMp/2;
-        this.level = level;
+    private void setByLV(int n) {
+        this.maksHp = maksHp + (defaultmaksHp * n);
+        this.baseDamage = baseDamage + (defaultbaseDamage * n);
+        this.maksMp = maksMp +  (defaultmaksMp/2 * n);
+        this.level += n;
     }
     
     // ==============================================================================================================================
@@ -112,11 +112,16 @@ public class Monster {
     public void takeDamage(double damage){
         setHp(this.hp - damage);
     }
-    public int upLevel() {
-        this.level++;
-        setByLV(level);
-        canEvolve = true;
-        return this.level;
+    public int upLevel(int ep) {
+        int n = 0;//menghitung jumlah kenaikan level
+        this.ep += ep;
+        while (this.ep >= 100) {
+            this.ep -= 100;
+            n++;
+            canEvolve = true;
+        }
+        setByLV(n);
+        return n;
     }
     
     public void heal(double hp) {
@@ -135,6 +140,9 @@ public class Monster {
     }
     public double elementAttack(Monster monster){
         return 0;
+    }
+    public double useItem(Item item){
+        return 0 ;
     }
 
     public Element getElement() {

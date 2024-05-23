@@ -24,28 +24,27 @@ public class GameHomebase  {
     public static void storeMonster(Monster monster) {
         Player.monsters.add(monster);
     }
-    public static void levelUpMonster(int n) {
-        Player.monsters.get(n).upLevel();
+    public static int levelUpMonster(int n, int ep) {
+        if (Player.ep >= ep) {
+            Player.monsters.get(n).upLevel(ep);
+            Player.ep -= ep;
+            return Player.ep;
+        }else{
+            return Player.ep - ep;
+        }
     }
-    public static void levelUpMonster(Monster monster) {
-        monster.upLevel();
-    }
-    public static void evolveMonster(int n, Element element){
-        Monster temp = Player.monsters.get(n);
-        Player.monsters.set(n, evolveMonster(temp, element));
-    }
+    public static String evolveMonster(int n, Element element){
+        Monster monster = Player.monsters.get(n);
 
-    public static Monster evolveMonster(Monster monster, Element element) {
         if (!monster.getCanEvolve()) {
-            System.out.println("anda hanya dapat evolusi 1 kali dalam 1 level");
-            return monster;
+            return "anda hanya dapat evolusi 1 kali dalam 1 level";
         }
         if (Math.abs(monster.getElement().getValue() - element.getValue()) == 1) {
-            return evolving(monster, element);
+            Player.monsters.set(n, evolving(monster, element));
         } else {
-            System.out.println("Invalid evolution. Element change must be adjacent.");
-            return monster;
+            return "Invalid evolution. Element change must be adjacent.";
         }
+        return "success";
     }
 
     public static Monster evolving(Monster monster, Element element) {

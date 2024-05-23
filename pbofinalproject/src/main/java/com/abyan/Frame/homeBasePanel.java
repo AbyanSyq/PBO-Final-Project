@@ -2,6 +2,7 @@ package com.abyan.Frame;
 
 import javax.swing.*;
 
+import com.abyan.Manager.Element;
 import com.abyan.Manager.GameManager;
 import com.abyan.Manager.Player;
 import com.abyan.Object.Monster;
@@ -15,6 +16,7 @@ import java.awt.event.ComponentEvent;
 
 public class homeBasePanel {
     public static int currentMonster = 0;
+    private static JTextArea textArea1;
     private static JLabel pokeName;
     private static JLabel pokeLevel;
     private static JLabel pokeElement;
@@ -27,6 +29,7 @@ public class homeBasePanel {
 
     homeBasePanel() {
         initComponent();
+        
     }
 
     public static void initComponent() {
@@ -50,7 +53,7 @@ public class homeBasePanel {
         frame.add(label2);
 
         // Membuat textarea dalam scrollpane untuk pesan
-        JTextArea textArea1 = new JTextArea();
+        textArea1 = new JTextArea(Player.playerInfo());
         textArea1.setEditable(false);
         textArea1.setFont(font);
         JScrollPane scrollPane1 = new JScrollPane(textArea1);
@@ -91,7 +94,6 @@ public class homeBasePanel {
 
         // Membuat bar untuk kesehatan, damage, magic point, dan exp
         healthBar = new JProgressBar(0, 2000);
-        healthBar.setValue(500);
         healthBar.setStringPainted(true);
         healthBar.setForeground(Color.green);
         JLabel healthInfo = new JLabel("Health");
@@ -99,7 +101,6 @@ public class homeBasePanel {
         frame.add(healthBar);
 
         damageBar = new JProgressBar(0, 500);
-        damageBar.setValue(500);
         damageBar.setStringPainted(true);
         damageBar.setForeground(Color.red);
         JLabel damageInfo = new JLabel("Damage");
@@ -107,15 +108,13 @@ public class homeBasePanel {
         frame.add(damageBar);
 
         mpBar = new JProgressBar(0, 1000);
-        mpBar.setValue(500);
         mpBar.setStringPainted(true);
         mpBar.setForeground(Color.blue);
         JLabel mpInfo = new JLabel("Magic Point");
         frame.add(mpInfo);
         frame.add(mpBar);
 
-        expBar = new JProgressBar(0, 1000);
-        expBar.setValue(500);
+        expBar = new JProgressBar(0, 100);
         expBar.setStringPainted(true);
         expBar.setForeground(Color.orange);
         JLabel expInfo = new JLabel("EXP");
@@ -158,9 +157,12 @@ public class homeBasePanel {
 
         button3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                GameHomebase.levelUpMonster(currentMonster);
-                updateMonsterInfo();
-                GameManager.saveData();
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        levelUpComponent();
+                    }
+                });
             }
         });
 
@@ -178,7 +180,7 @@ public class homeBasePanel {
 
         button6.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(frame, "Button 6 clicked!");
+                evolveCompoment();
             }
         });
 
@@ -254,10 +256,191 @@ public class homeBasePanel {
         });
 
         // Menampilkan frame
-        frame.setSize(1600, 900);
+        frame.setSize(1500, 900);
         frame.setVisible(true);
     }
 
+    private static void levelUpComponent() {
+        JFrame frame = new JFrame();
+       
+
+        JPanel panel = new JPanel();
+        JLabel epLabel = new JLabel("Masukan EP:");
+        JTextField epField = new JTextField(10);
+        JLabel infoEpLabel = new JLabel("");
+        JButton okButton = new JButton("Ok");
+        JButton cancelButton = new JButton("Cancel");
+
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        // Masukan EP
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.insets = new Insets(5, 5, 5, 5);
+        panel.add(epLabel, constraints);
+
+        constraints.gridx = 1;
+        panel.add(epField, constraints);
+
+        // Total EP anda
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.gridwidth = 2; // Mengatur gridwidth menjadi 2 untuk menggabungkan dua kolom
+        constraints.anchor = GridBagConstraints.CENTER;
+        panel.add(infoEpLabel, constraints);
+        constraints.gridwidth = 1; // Mengatur gridwidth menjadi 2 untuk menggabungkan dua kolom
+
+        // Buttons
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        panel.add(cancelButton, constraints);
+
+        constraints.gridx = 1;
+        panel.add(okButton, constraints);
+
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int ep = Integer.parseInt(epField.getText());/////exception
+                    int playerEp = GameHomebase.levelUpMonster(currentMonster,ep);
+                    if (playerEp >= 0) {
+                        epLabel.setText("Level Up succes");
+                        updateMonsterInfo();
+                        frame.setVisible(false);
+                    }else{
+                        infoEpLabel.setText("Your Ep is not enough");
+                    }
+                    // GameManager.saveData();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(frame, "Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+            }
+        });
+
+        frame.add(panel);
+        frame.setTitle("Level Up Frame");
+        frame.setSize(400, 200);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+    private static void evolveCompoment() {
+        JFrame frame = new JFrame();
+
+        JPanel panel = new JPanel();
+        JLabel elementLabel = new JLabel("Pilih Element:");
+        JLabel infoEvolveLabel = new JLabel("");
+        JRadioButton apiButton = new JRadioButton("Api");
+        JRadioButton tanahButton = new JRadioButton("Tanah");
+        JRadioButton anginButton = new JRadioButton("Angin");
+        JRadioButton airButton = new JRadioButton("Air");
+        JRadioButton esButton = new JRadioButton("Es");
+        JButton okButton = new JButton("Ok");
+        JButton cancelButton = new JButton("Cancel");
+
+        // Button group for radio buttons
+        ButtonGroup group = new ButtonGroup();
+        group.add(apiButton);
+        group.add(tanahButton);
+        group.add(anginButton);
+        group.add(airButton);
+        group.add(esButton);
+
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        // Pilih Element Label
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.insets = new Insets(5, 5, 5, 5);
+        constraints.anchor = GridBagConstraints.CENTER;
+        panel.add(elementLabel, constraints);
+
+        // Radio Buttons
+        constraints.anchor = GridBagConstraints.LINE_START;
+        constraints.gridy = 1;
+        panel.add(apiButton, constraints);
+
+        constraints.gridy = 2;
+        panel.add(tanahButton, constraints);
+
+        constraints.gridy = 3;
+        panel.add(anginButton, constraints);
+
+        constraints.gridy = 4;
+        panel.add(airButton, constraints);
+
+        constraints.gridy = 5;
+        panel.add(esButton, constraints);
+
+        // Total EP anda
+        constraints.gridx = 0;
+        constraints.gridy = 6;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.CENTER;
+        panel.add(infoEvolveLabel, constraints);
+        constraints.gridwidth = 1;
+
+        // Buttons
+        constraints.gridy = 7;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.LINE_END;
+        panel.add(cancelButton, constraints);
+
+        constraints.gridx = 1;
+        constraints.anchor = GridBagConstraints.LINE_START;
+        panel.add(okButton, constraints);
+
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Element selectedElement = null;
+                if (apiButton.isSelected()) {
+                    selectedElement = Element.API;
+                } else if (tanahButton.isSelected()) {
+                    selectedElement = Element.TANAH;
+                } else if (anginButton.isSelected()) {
+                    selectedElement = Element.ANGIN;
+                } else if (airButton.isSelected()) {
+                    selectedElement = Element.AIR;
+                } else if (esButton.isSelected()) {
+                    selectedElement = Element.ES;
+                }
+
+                if (selectedElement != null) {
+                    if (GameHomebase.evolveMonster(currentMonster, selectedElement).equalsIgnoreCase("success")) {
+                        updateMonsterInfo();
+                        frame.setVisible(false);
+                    }
+                    infoEvolveLabel.setText(GameHomebase.evolveMonster(currentMonster, selectedElement));
+                } else {
+                    JOptionPane.showMessageDialog(frame, "Please select an element.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+            }
+        });
+
+        frame.add(panel);
+        frame.setTitle("Select Element");
+        frame.setSize(400, 300);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+    
     public static void pickElement(){
 
     }
@@ -275,9 +458,13 @@ public class homeBasePanel {
             currentMonster += size;
         }
     }
+    
 
     public static void updateMonsterInfo() {
         Monster currentMonsterObj = Player.monsters.get(currentMonster);
+
+        textArea1.setText(Player.playerInfo());
+
         pokeName.setText(": " + currentMonsterObj.getName());
         pokeLevel.setText(": " + currentMonsterObj.getLevel());
         pokeElement.setText(": " + currentMonsterObj.getElement());

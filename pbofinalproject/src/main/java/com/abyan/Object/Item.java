@@ -19,7 +19,7 @@ public class Item extends ItemBluePrint{
     public String getName() {
         return name;
     }
-    public void setName(String name) {
+    public void setName(String name) {      
         this.name = name;
     }
 }

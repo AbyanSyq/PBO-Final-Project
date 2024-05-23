@@ -10,16 +10,20 @@ import java.util.Scanner;
 
 public class Player {
     public static String name;
-    public static String profilPath;
+    public static String profilPath = "Data_Akun/defaultProfile.jpg";
     public static int ep;
+    public static int healPotion;
+    public static int damagePotion; 
 
     public static ArrayList<Item> items = new ArrayList<>();
     public static ArrayList<Monster> monsters = new ArrayList<>();
 
 
     public static String playerInfo(){
-        return "name       =" + name + '\n' +
-                "Ep         =" + ep +'\n' 
+        return "name                                                =" + name + '\n' +
+                "Ep                                                 =" + ep +'\n' +
+                "Heal Potion                                        =" + ep +'\n' +
+                "Damage Potion(increse your monster damage)         =" + ep +'\n'
                 ;
     }
 }
