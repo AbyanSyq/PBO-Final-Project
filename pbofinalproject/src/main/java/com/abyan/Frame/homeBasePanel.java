@@ -29,7 +29,6 @@ public class homeBasePanel {
 
     homeBasePanel() {
         initComponent();
-        
     }
 
     public static void initComponent() {
@@ -129,7 +128,7 @@ public class homeBasePanel {
         JButton button5 = new JButton("jButton5");
         JButton button6 = new JButton("Evolve");
         JButton button7 = new JButton("jButton7");
-        JButton button8 = new JButton("jButton8");
+        JButton button8 = new JButton("Save");
 
         frame.add(button1);
         frame.add(button2);
@@ -192,7 +191,8 @@ public class homeBasePanel {
 
         button8.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(frame, "Button 8 clicked!");
+                GameManager.saveData();
+                JOptionPane.showMessageDialog(frame, "Your progres saved");
             }
         });
 

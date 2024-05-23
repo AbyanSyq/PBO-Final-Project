@@ -33,8 +33,12 @@ public class DungeonGame extends JFrame {
     private List<ImageIcon> loadMonsterIcons() {
         List<ImageIcon> icons = new ArrayList<>();
         // Load different monster images
-        
-        icons.add(new ImageIcon("MonsterImage/MonsterAngin.png"));
+
+
+        ImageIcon fire = new ImageIcon("MonsterImage/MonsterAngin.png");
+        Image fireImage = fire.getImage();
+        fireImage = fireImage.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        icons.add(new ImageIcon(fireImage));
         // Add more images as needed
         return icons;
     }
