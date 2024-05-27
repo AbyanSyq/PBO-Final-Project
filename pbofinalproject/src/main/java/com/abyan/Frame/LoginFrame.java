@@ -111,7 +111,7 @@ public class LoginFrame extends JFrame {
                 }
             }
         });
-
+        //panel.setBackground("MonsterImage/MonsterAir.png");
         add(panel);
         setTitle("Login Frame");
         setSize(400, 200);

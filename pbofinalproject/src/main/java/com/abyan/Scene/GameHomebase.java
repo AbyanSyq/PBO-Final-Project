@@ -6,16 +6,6 @@ import com.abyan.Scene.*;
 
 import java.util.*;
 
-// abstract class HomeBase {
-//     public abstract void storeMonster(Monster monster);
-
-//     public abstract void levelUpMonster(Monster monster);
-
-//     public abstract Monster evolveMonster(Monster monster, Element element);
-
-//     public abstract void enterDungeon(Monster monster0,Monster monster1,Monster monster2);
-// }
-
 public class GameHomebase  {
     public GameHomebase(){
         

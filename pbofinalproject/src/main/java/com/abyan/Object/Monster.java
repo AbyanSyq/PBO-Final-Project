@@ -5,7 +5,7 @@ import com.abyan.Scene.*;
 import com.abyan.Scene.*;
 import java.util.*;
 
-public class Monster  implements Pertarungan{
+public class Monster implements Pertarungan{
     private String name;
     protected Element element;
     private int level;

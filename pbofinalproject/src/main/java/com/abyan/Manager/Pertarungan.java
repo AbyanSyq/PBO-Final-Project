@@ -1,5 +1,4 @@
-package com.abyan.Scene;
-import com.abyan.Manager.*;
+package com.abyan.Manager;
 import com.abyan.Object.*;
 import com.abyan.Scene.*;
 

@@ -13,7 +13,7 @@ public class Air extends Monster {
         super.defaultbaseDamage = 20;
         super.defaultmaksMp = 40;
     }
-
+    @Override
     public Element getElement() {
         return element;
     }
