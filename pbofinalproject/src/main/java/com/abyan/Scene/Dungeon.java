@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 
 import com.abyan.Frame.DungeonGame;
 import com.abyan.Manager.Element;
+import com.abyan.Manager.GameException;
 import com.abyan.Manager.GameManager;
 import com.abyan.Object.Monster;
 
@@ -26,7 +27,7 @@ public class Dungeon {
             }
         });
         for (int index = 0; index < 5; index++) {
-            enemyMonsters.add(GameManager.monsterGen("", Element.getElementByValue(index),0, 80.0, 15.0, 20.0,0));
+            enemyMonsters.add(GameManager.monsterGen("", Element.getElementByValue(index),0, 0, 0,0,0));
             enemyMonsters.get(index).setByLV(getPlayerMonsterLV());
             enemyMonsters.get(index).heal(999999999);
             enemyMonsters.get(index).setMp(999999999);
@@ -43,9 +44,7 @@ public class Dungeon {
         return highgestLV;
     }
 
-    public void battle(Monster monster){
-        //Menampilkan musuh
-        //Menampilkan tombol enter atau kabur
-        //masuk battle arne 
+    public void battle(Monster playerMonster, Monster enemyMonster) throws GameException{
+        new BattleArena(playerMonster,enemyMonster,this);
     }
 }

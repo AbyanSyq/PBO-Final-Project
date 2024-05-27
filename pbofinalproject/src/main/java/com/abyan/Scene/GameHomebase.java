@@ -43,14 +43,18 @@ public class GameHomebase  {
             return "anda hanya dapat evolusi 1 kali dalam 1 level";
         }
         if (Math.abs(monster.getElement().getValue() - element.getValue()) == 1) {
-            Player.monsters.set(n, evolving(monster, element));
+            try {
+                Player.monsters.set(n, evolving(monster, element));
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         } else {
             return "Invalid evolution. Element change must be adjacent.";
         }
         return "success";
     }
 
-    public static Monster evolving(Monster monster, Element element) {
+    public static Monster evolving(Monster monster, Element element)  throws GameException{
         switch (element.getValue()) {
             case 0:
                 return new Api(monster.getName(), monster.getLevel(),monster.getMaksHp(),monster.getBaseDamage(),monster.getMaksMp(),monster.getEp());
@@ -63,8 +67,7 @@ public class GameHomebase  {
             case 4:
                 return new Es(monster.getName(), monster.getLevel(),monster.getMaksHp(),monster.getBaseDamage(),monster.getMaksMp(),monster.getEp());
             default:
-                System.out.println("Evolve didn't work");
-                return monster;
+                throw new GameException("Evolusi tidak berhasil");
         }
     }
 

@@ -2,6 +2,6 @@ package com.abyan.Object;
 
 public class healPotion extends Item {
     public healPotion() {
-        super("heal",100,0);
+        super("Heal Potion",100,0,"Data_Akun/defaultProfile.jpg");
     }
 }

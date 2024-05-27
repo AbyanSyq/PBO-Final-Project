@@ -124,7 +124,7 @@ public class BattleArenaFrame {
         });
         buttonsPanel.add(usePotionButton);
 
-        surrenderButton = new JButton("Surrender");
+        surrenderButton = new JButton("Kabur");
         surrenderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -197,9 +197,16 @@ public class BattleArenaFrame {
         ButtonGroup group = new ButtonGroup();
         ArrayList<JRadioButton> radioButtons = new ArrayList<>();
 
-        for (Item item : Player.items) {
-            JRadioButton radioButton = new JRadioButton(item.getName());
-            radioButton.setActionCommand(item.getName());
+        if (Player.healPotion > 0) {
+            JRadioButton radioButton = new JRadioButton(Player.items.get(0).getName());
+            radioButton.setActionCommand(Player.items.get(0).getName());
+            group.add(radioButton);
+            radioButtons.add(radioButton);
+            potionPanel.add(radioButton);
+        }
+        if (Player.damagePotion > 0) {
+            JRadioButton radioButton = new JRadioButton(Player.items.get(1).getName());
+            radioButton.setActionCommand(Player.items.get(1).getName());
             group.add(radioButton);
             radioButtons.add(radioButton);
             potionPanel.add(radioButton);
@@ -214,6 +221,8 @@ public class BattleArenaFrame {
                     if (item.getName().equals(selectedPotionName)) {
                         battleArena.useItem(item);
                         dialog.dispose();
+                        updateLabels();
+                        battleArena.enemyTurn();
                         break;
                     }
                 }
@@ -239,7 +248,8 @@ public class BattleArenaFrame {
         label.setForeground(color);
         JOptionPane.showMessageDialog(frame, label);
     }
-    public void showMassage(String massage){
+
+    public void showMassage(String massage) {
         JOptionPane.showMessageDialog(frame, massage);
     }
 
@@ -249,17 +259,9 @@ public class BattleArenaFrame {
         enemyHPBar.setValue((int) battleArena.enemyMonster.getHp());
         enemyMPBar.setValue((int) battleArena.enemyMonster.getMp());
     }
-    public void surrender(){
-        frame.dispose();
-        System.exit(0);
-    }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new BattleArena(new Api("player", 100, 100, 100, 100, 100), new Air("Enemy", 100, 100, 100, 100, 100));
-            }
-        });
+    public void exit() {
+        frame.dispose();
+        // System.exit(0);
     }
 }

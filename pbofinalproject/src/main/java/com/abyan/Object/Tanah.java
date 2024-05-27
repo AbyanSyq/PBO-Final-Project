@@ -19,6 +19,10 @@ public class Tanah extends Monster {
         return element;
     }
     public double elementAttack(Monster monster) {
+        if (mp <= 10) {
+            return 0;
+        }
+        mp -=10;
         if (monster.getElement().getValue() == 3) {
             monster.takeDamage(super.getBaseDamage()*2);
             return super.getBaseDamage()*2;

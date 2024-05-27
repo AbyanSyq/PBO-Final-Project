@@ -28,8 +28,8 @@ public class Player {
     public static String playerInfo(){
         return "name                                                =" + name + '\n' +
                 "Ep                                                 =" + ep +'\n' +
-                "Heal Potion                                        =" + ep +'\n' +
-                "Damage Potion(increse your monster damage)         =" + ep +'\n'
+                "Heal Potion                                        =" + healPotion +'\n' +
+                "Damage Potion(increse your monster damage)         =" + damagePotion +'\n'
                 ;
     }
 }

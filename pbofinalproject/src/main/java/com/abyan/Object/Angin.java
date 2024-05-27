@@ -21,6 +21,10 @@ public class Angin extends Monster {
     }
 
     public double elementAttack(Monster monster) {
+        if (mp <= 10) {
+            return 0;
+        }
+        mp -=10;
         if (monster.getElement().getValue() == 1) {
             monster.takeDamage(super.getBaseDamage()*2);
             return super.getBaseDamage()*2;

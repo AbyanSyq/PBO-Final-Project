@@ -134,6 +134,10 @@ public class Monster  implements Pertarungan{
     }
 
     public double specialAttack(Monster monster) {
+        int random = GameManager.randomNum(1, 10);
+        if (random == 5) {
+            return 0;
+        }
         monster.takeDamage(baseDamage * 1.5);
         takeDamage(baseDamage * 0.5);
         return baseDamage * 2;

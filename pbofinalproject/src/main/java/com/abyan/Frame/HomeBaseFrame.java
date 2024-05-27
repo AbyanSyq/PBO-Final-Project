@@ -11,9 +11,11 @@ import java.util.ArrayList;
 import com.abyan.Manager.Element;
 import com.abyan.Manager.GameManager;
 import com.abyan.Manager.Player;
-import com.abyan.Object.Monster;
+import com.abyan.Object.*;
 import com.abyan.Scene.Dungeon;
 import com.abyan.Scene.GameHomebase;
+
+
 
 public class HomeBaseFrame extends JFrame {
     private int currentMonster = 0;
@@ -27,8 +29,10 @@ public class HomeBaseFrame extends JFrame {
     private JProgressBar mpBar;
     private JProgressBar expBar;
     private JLabel label1;
+    private HomeBaseFrame thisClass;
 
     public HomeBaseFrame() {
+        thisClass = this;
         //super("");
         initComponent();
     }
@@ -125,7 +129,7 @@ public class HomeBaseFrame extends JFrame {
         JButton button2 = new JButton("Next");
         JButton button3 = new JButton("Level Up");
         JButton button4 = new JButton("Enter Dungeon");
-        JButton button5 = new JButton("jButton5");
+        JButton button5 = new JButton("Revive all mosnter");
         JButton button6 = new JButton("Evolve");
         JButton button7 = new JButton("jButton7");
         JButton button8 = new JButton("Save");
@@ -178,7 +182,10 @@ public class HomeBaseFrame extends JFrame {
 
         button5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                textArea1.append("Button 5 clicked!\n");
+                for (Monster monster : Player.monsters) {
+                    monster.heal(999999999);
+                    monster.setMp(999999999);
+                }
             }
         });
 
@@ -190,7 +197,9 @@ public class HomeBaseFrame extends JFrame {
 
         button7.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(HomeBaseFrame.this, "Button 7 clicked!");
+                InventorySystem inventorySystem = new InventorySystem(thisClass);
+                inventorySystem.setVisible(true);
+                updateMonsterInfo();
             }
         });
 
@@ -531,7 +540,7 @@ public class HomeBaseFrame extends JFrame {
         }
     }
 
-    private void updateMonsterInfo() {
+    public void updateMonsterInfo() {
         Monster currentMonsterObj = Player.monsters.get(currentMonster);
 
         textArea1.setText(Player.playerInfo());

@@ -120,8 +120,8 @@ public class DungeonGame extends JFrame {
 
         addKeyListener(new KeyAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
-                handleKeyPress(e);
+            public void keyPressed(KeyEvent ex) {
+                handleKeyPress(ex);
             }
         });
 
@@ -161,6 +161,10 @@ public class DungeonGame extends JFrame {
             Monster monster = enemyMonster.get(newPlayerPosition);
             if (monster != null) {
                 startBattle(monster);
+                enemyMonster.remove(newPlayerPosition); // Hapus monster setelah memanggil startBattle
+                monsterLocations.remove(newPlayerPosition);
+                gridLabels[newPlayerPosition.y][newPlayerPosition.x].setIcon(null);
+                dungeon.monsters.remove(monster);
             } else {
                 System.err.println("Error: Enemy monster is null.");
             }
@@ -188,10 +192,8 @@ public class DungeonGame extends JFrame {
 
         JPanel buttonPanel = new JPanel();
         JButton okButton = new JButton("OK");
-        JButton cancelButton = new JButton("Cancel");
 
         buttonPanel.add(okButton);
-        buttonPanel.add(cancelButton);
 
         frame.add(checkBoxPanel, BorderLayout.CENTER);
         frame.add(buttonPanel, BorderLayout.SOUTH);
@@ -215,22 +217,13 @@ public class DungeonGame extends JFrame {
                 } else if (selectedCount <= 0) {
                     JOptionPane.showMessageDialog(frame, "You have to select 1 monster.", "Selection Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    if (selectedMonsters[0] != null && monster != null) {
-                        new BattleArena(selectedMonsters[0],monster);
-                        System.out.println(selectedMonsters[0].getName() + " VS " + monster.getLevel());
+                    try {
+                        dungeon.battle(selectedMonsters[0],monster);
                         frame.setVisible(false);
-                        dispose();
-                    } else {
-                        System.err.println("Error: Selected player monster or enemy monster is null.");
+                    } catch (Exception ex) {
+                        System.err.println(ex);
                     }
                 }
-            }
-        });
-
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
             }
         });
 
@@ -247,15 +240,5 @@ public class DungeonGame extends JFrame {
         gridLabels[playerPosition.y][playerPosition.x].setIcon(null);
         playerPosition = treasurePosition;
         gridLabels[playerPosition.y][playerPosition.x].setIcon(playerIcon);
-    }
-
-    public static void main(String[] args) {
-        Dungeon dungeon = new Dungeon(Player.monsters);
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new DungeonGame(dungeon).setVisible(true);
-            }
-        });
     }
 }
