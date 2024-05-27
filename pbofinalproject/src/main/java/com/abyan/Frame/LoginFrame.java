@@ -82,7 +82,7 @@ public class LoginFrame extends JFrame {
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
-                            new homeBasePanel();
+                            new HomeBaseFrame();
                         }
                     });
                     setVisible(false);
@@ -102,7 +102,7 @@ public class LoginFrame extends JFrame {
                     SwingUtilities.invokeLater(new Runnable() {
                         @Override
                         public void run() {
-                            new homeBasePanel();
+                            new HomeBaseFrame();
                         }
                     });
                     setVisible(false);

@@ -12,13 +12,13 @@ import com.abyan.Manager.*;
 public class Main {
     public static void main(String[] args) {
         GameManager.loadData();
+        Player.items.add(new healPotion());
+        Player.items.add(new increaseDamagePotion());
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 new LoginFrame().setVisible(true);
-            }
+            } 
         });
-        //GameManager.saveData();
-        
     }  
 }

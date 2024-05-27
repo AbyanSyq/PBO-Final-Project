@@ -19,9 +19,11 @@ public class Api extends Monster {
     }
 
     public double elementAttack(Monster monster) {
-        if (!(super.element.getValue() + 1 == monster.getElement().getValue())) {
-            return super.getBaseDamage()/2;
-        } 
-        return super.getBaseDamage() * 1.5;
+        if (monster.getElement().getValue() == 4) {
+            monster.takeDamage(super.getBaseDamage()*2);
+            return super.getBaseDamage()*2;
+        }
+        monster.takeDamage(super.getBaseDamage()/2);
+        return super.getBaseDamage() / 2;
     }
 }

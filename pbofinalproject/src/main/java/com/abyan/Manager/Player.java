@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class Player {
     public static String name;
+    public static String password;
     public static String profilPath = "Data_Akun/defaultProfile.jpg";
     public static int ep;
     public static int healPotion;
@@ -18,6 +19,11 @@ public class Player {
     public static ArrayList<Item> items = new ArrayList<>();
     public static ArrayList<Monster> monsters = new ArrayList<>();
 
+    public static String[] data(){
+        String[] s = {password,profilPath,Integer.toString(ep),Integer.toString(healPotion),Integer.toString(damagePotion)};
+        return s;
+    }
+    
 
     public static String playerInfo(){
         return "name                                                =" + name + '\n' +

@@ -17,6 +17,9 @@ import java.util.*;
 // }
 
 public class GameHomebase  {
+    public GameHomebase(){
+        
+    }
     public static Monster pickMonster(String name) {
         return null;
     }

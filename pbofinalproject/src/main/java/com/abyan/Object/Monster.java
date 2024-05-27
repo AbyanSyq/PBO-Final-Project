@@ -40,9 +40,9 @@ public class Monster  implements Pertarungan{
         this.ep = ep;
     }
     
-    private void setByLV(int n) {
+    public void setByLV(int n) {//increase base artibut if level up
         this.maksHp = maksHp + (defaultmaksHp * n);
-        this.baseDamage = baseDamage + (defaultbaseDamage * n);
+        this.baseDamage = baseDamage + (defaultbaseDamage/2 * n);
         this.maksMp = maksMp +  (defaultmaksMp/2 * n);
         this.level += n;
     }
@@ -142,7 +142,10 @@ public class Monster  implements Pertarungan{
         return 0;
     }
     public double useItem(Item item){
-        return 0 ;
+        heal(item.healAmount);
+        this.baseDamage = baseDamage + item.damageAmount;
+
+        return item.healAmount + item.damageAmount;
     }
 
     public Element getElement() {
@@ -176,12 +179,19 @@ public class Monster  implements Pertarungan{
         return mp;
     }
 
-    public void setMp(double mp) {
-        this.mp = mp;
+    public double setMp(double mp) {
+        this.mp = this.mp + mp;
+        if (this.mp > this.maksMp) {
+            this.mp = this.maksMp;
+        }
+        return this.mp;
     }
 
     public void setCanEvolve(boolean canEvolve) {
         this.canEvolve = canEvolve;
+    }
+    public void surrender(){
+
     }
 }
 

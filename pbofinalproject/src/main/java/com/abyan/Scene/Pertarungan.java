@@ -8,4 +8,5 @@ public interface Pertarungan {
     public double specialAttack(Monster monster);
     public double elementAttack(Monster monster);
     public double useItem(Item item);
+    public void surrender();
 }

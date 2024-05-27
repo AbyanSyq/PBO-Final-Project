@@ -161,6 +161,7 @@ public class GameManager {
         String[] playerData = dataAkun.get(username);
 
         Player.name = username;
+        Player.password = playerData[0];
         Player.profilPath = playerData[1];
         Player.ep = Integer.parseInt(playerData[2]);
         Player.healPotion = Integer.parseInt(playerData[3]);
@@ -168,13 +169,12 @@ public class GameManager {
     }
 
     public static void saveData(){
+        dataAkun.put(Player.name, Player.data());
         saveAkun(dataAkun);
         saveMonsters(Player.monsters);
         //saveItem(Player.items);
     }
     public static void loadData() {
-        Player.items.add(new healPotion());
-        Player.items.add(new increaseDamagePotion());
         if ((checkFileExists(fileAkun))) { 
             dataAkun = loadAkun();
         }
@@ -183,7 +183,6 @@ public class GameManager {
             Player.monsters = loadMonsters();
             }
         }
-        
     }
 
     public static void setFile(String name) {
