@@ -26,18 +26,10 @@ import javax.net.ssl.SNIHostName;
 
 public class GameManager {
     public static String fileMonster = null;
-    public static String fileItem = null;
     public static String fileAkun = "Data_akun/dataAkun.csv";
     public static HashMap<String, String[]> dataAkun = new HashMap<>();
-    private static String loggedInUser = null;
-
-    //private static final String DATA_PATH = "D:\\S2\\PBO\\PBO-Final-Project\\Data\\";
 
     public static String login(String username, String password) {
-        // System.out.print("Enter username: ");
-        // String username = scanner.nextLine();
-        // System.out.print("Enter password: ");
-        // String password = scanner.nextLine();
 
         if (dataAkun.containsKey(username) && dataAkun.get(username)[0].equals(password)) {
             System.out.println("Login successful. Welcome, " + username + "!");
@@ -51,28 +43,13 @@ public class GameManager {
             return null;
         }
     }
-
-    public static void logout() {
-        if (loggedInUser != null) {
-            System.out.println("Logged out successfully.");
-            loggedInUser = null;
-        } else {
-            System.out.println("No user is currently logged in.");
-        }
-    }
-
     public static String signUp(String username, String password) {
         System.out.print("Enter new username: ");
-        // String username = scanner.nextLine();
 
         if (dataAkun.containsKey(username)) {
             System.out.println("Username already exists. Please choose a different username.");
             return null;
         }
-        // System.out.print("Enter password: ");
-        // String password = scanner.nextLine();
-        // System.out.print("Enter profile photo path: ");
-        // String profilePhotoPath = scanner.nextLine();
         String profilePhotoPath = "Data_akun/defaultProfile.jpg";
 
         dataAkun.put(username, new String[] {password, profilePhotoPath,"0","0","0"});
@@ -187,7 +164,6 @@ public class GameManager {
 
     public static void setFile(String name) {
         fileMonster = "Data_Monster/" + name + "Monster.csv";
-        fileItem = "Data_Monster/" +name + "Item.csv";
     }
 
     public static boolean checkFileExists(String filePath) {

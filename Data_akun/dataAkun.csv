@@ -1,7 +1,6 @@
 username,password,photoProfilePath,exp,heal Potion,damage potion
-abyan,123,D:\Saved Pictures\aowkoawk\WhatsApp Image 2024-05-22 at 10.42.12_1e011b66.jpg,0,0,0
-hasan,123,Data_akun/defaultProfile.jpg,300,0,0
-,,Data_akun/defaultProfile.jpg,0,0,0
+hasan,123,Asset\hasan.jpg,0,0,0
+abyan,123,Data_akun/defaultProfile.jpg,300,0,0
 toni,123,Data_akun/defaultProfile.jpg,0,0,0
 null,null,Data_Akun/defaultProfile.jpg,0,0,0
 null,null,Data_Akun/defaultProfile.jpg,0,0,0

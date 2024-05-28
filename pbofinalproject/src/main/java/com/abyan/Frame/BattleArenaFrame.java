@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class BattleArenaFrame {
     private JFrame frame;
@@ -25,16 +24,19 @@ public class BattleArenaFrame {
     private JProgressBar enemyMPBar;
     private JLabel playerImageLabel;
     private JLabel enemyImageLabel;
-    private Random random;
 
     public BattleArenaFrame(BattleArena battleArena) {
         this.battleArena = battleArena;
-        this.random = new Random();
 
         frame = new JFrame("Fighting Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1600, 900);
         frame.setLayout(new GridBagLayout());
+
+        // Set the background image
+        ImagePanel backgroundPanel = new ImagePanel("Asset/Background.jpg");
+        backgroundPanel.setLayout(new GridBagLayout());
+        frame.setContentPane(backgroundPanel);
 
         createComponents();
 
@@ -48,6 +50,7 @@ public class BattleArenaFrame {
 
         // Player Stats Panel
         JPanel playerStatsPanel = new JPanel(new GridLayout(2, 1));
+        playerStatsPanel.setOpaque(false); // Make panel transparent
         playerStatsPanel.add(createHPBar(battleArena.playerMonster, "Player"));
         playerStatsPanel.add(createMPBar(battleArena.playerMonster, "Player"));
         gbc.gridx = 0;
@@ -57,6 +60,7 @@ public class BattleArenaFrame {
 
         // Enemy Stats Panel
         JPanel enemyStatsPanel = new JPanel(new GridLayout(2, 1));
+        enemyStatsPanel.setOpaque(false); // Make panel transparent
         enemyStatsPanel.add(createHPBar(battleArena.enemyMonster, "Enemy"));
         enemyStatsPanel.add(createMPBar(battleArena.enemyMonster, "Enemy"));
         gbc.gridx = 2;
@@ -88,6 +92,7 @@ public class BattleArenaFrame {
 
         // Buttons Panel
         JPanel buttonsPanel = new JPanel(new GridLayout(1, 5)); // Update grid layout to 1x5 for the new button
+        buttonsPanel.setOpaque(false); // Make panel transparent
         normalAttackButton = new JButton("Normal Attack");
         normalAttackButton.addActionListener(new ActionListener() {
             @Override
@@ -153,6 +158,7 @@ public class BattleArenaFrame {
         panel.setLayout(new FlowLayout(FlowLayout.LEFT));
         panel.add(nameLabel);
         panel.add(bar);
+        panel.setOpaque(false); // Make panel transparent
 
         if (name.equals("Player")) {
             playerHPBar = bar;
@@ -176,6 +182,7 @@ public class BattleArenaFrame {
         panel.setLayout(new FlowLayout(FlowLayout.LEFT));
         panel.add(nameLabel);
         panel.add(bar);
+        panel.setOpaque(false); // Make panel transparent
 
         if (name.equals("Player")) {
             playerMPBar = bar;
@@ -263,5 +270,26 @@ public class BattleArenaFrame {
     public void exit() {
         frame.dispose();
         // System.exit(0);
+    }
+
+    // Custom JPanel class to paint the background image
+    class ImagePanel extends JPanel {
+        private Image backgroundImage;
+
+        public ImagePanel(String imagePath) {
+            try {
+                backgroundImage = new ImageIcon(imagePath).getImage();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (backgroundImage != null) {
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            }
+        }
     }
 }

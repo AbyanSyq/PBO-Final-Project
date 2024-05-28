@@ -15,8 +15,6 @@ import com.abyan.Object.*;
 import com.abyan.Scene.Dungeon;
 import com.abyan.Scene.GameHomebase;
 
-
-
 public class HomeBaseFrame extends JFrame {
     private int currentMonster = 0;
     private JTextArea textArea1;
@@ -33,7 +31,7 @@ public class HomeBaseFrame extends JFrame {
 
     public HomeBaseFrame() {
         thisClass = this;
-        //super("");
+        // super("");
         initComponent();
     }
 
@@ -42,10 +40,15 @@ public class HomeBaseFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null); // Menggunakan null layout
 
-        // Membuat label
-        // Mengubah label1 menjadi label kustom dengan gambar
-        ImageIcon imageIcon1 = new ImageIcon(Player.monsters.get(currentMonster).getImagePath());
-        label1 = new JLabel(imageIcon1);
+        
+        String backgroundImagePath = "Asset/homebase.png";
+        ImageIcon backgroundImage = new ImageIcon(backgroundImagePath);
+        BackgroundPanel backgroundPanel = new BackgroundPanel(backgroundImage.getImage());
+
+
+        ImageIcon profil = new
+        ImageIcon(Player.monsters.get(currentMonster).getImagePath());
+        label1 = new JLabel(profil);
         label1.setBounds(50, 80, 50, 20);
         add(label1);
 
@@ -268,9 +271,11 @@ public class HomeBaseFrame extends JFrame {
                 button8.setBounds(50, 510, 150, 50);
             }
         });
-
-        // Menampilkan frame
-        setSize(1500, 900);
+    
+        backgroundPanel.setLayout(new BorderLayout());
+        //backgroundPanel.add(this, BorderLayout.CENTER);
+        add(backgroundPanel);
+        setSize(1920, 1080);
         setVisible(true);
     }
 
@@ -316,18 +321,19 @@ public class HomeBaseFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int ep = Integer.parseInt(epField.getText());/////exception
-                    int playerEp = GameHomebase.levelUpMonster(currentMonster,ep);
+                    int ep = Integer.parseInt(epField.getText());///// exception
+                    int playerEp = GameHomebase.levelUpMonster(currentMonster, ep);
                     if (playerEp >= 0) {
                         epLabel.setText("Level Up succes");
                         updateMonsterInfo();
                         frame.setVisible(false);
-                    }else{
+                    } else {
                         infoEpLabel.setText("Your Ep is not enough");
                     }
                     // GameManager.saveData();
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(frame, "Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Please enter a valid number.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -436,7 +442,8 @@ public class HomeBaseFrame extends JFrame {
                     }
                     infoEvolveLabel.setText(GameHomebase.evolveMonster(currentMonster, selectedElement));
                 } else {
-                    JOptionPane.showMessageDialog(frame, "Please select an element.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Please select an element.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -447,6 +454,8 @@ public class HomeBaseFrame extends JFrame {
                 frame.setVisible(false);
             }
         });
+
+        
 
         frame.add(panel);
         frame.setTitle("Select Element");
@@ -465,7 +474,8 @@ public class HomeBaseFrame extends JFrame {
         // Membuat checkbox untuk setiap monster
         JCheckBox[] checkBoxes = new JCheckBox[Player.monsters.size()];
         for (int i = 0; i < Player.monsters.size(); i++) {
-            checkBoxes[i] = new JCheckBox((i + 1)+ ", "+Player.monsters.get(i).getName() + "(" + Player.monsters.get(i).getElement() + ")");
+            checkBoxes[i] = new JCheckBox((i + 1) + ", " + Player.monsters.get(i).getName() + "("
+                    + Player.monsters.get(i).getElement() + ")");
             checkBoxPanel.add(checkBoxes[i]);
         }
 
@@ -493,17 +503,19 @@ public class HomeBaseFrame extends JFrame {
                     if (checkBox.isSelected()) {
                         selectedCount++;
                         int i = checkBox.getText().charAt(0) - '0';
-                        selectedMonsters.add(Player.monsters.get(i-1));
+                        selectedMonsters.add(Player.monsters.get(i - 1));
                     }
                 }
 
-                if (selectedCount > 3 ) {
-                    JOptionPane.showMessageDialog(frame, "You can only select up to 3 monsters.", "Selection Error", JOptionPane.ERROR_MESSAGE);
+                if (selectedCount > 3) {
+                    JOptionPane.showMessageDialog(frame, "You can only select up to 3 monsters.", "Selection Error",
+                            JOptionPane.ERROR_MESSAGE);
                     selectedMonsters.removeAll(selectedMonsters);
-                } else if(selectedCount <= 0){
-                    JOptionPane.showMessageDialog(frame, "You have to select atleast 1 monster", "Selection Error", JOptionPane.ERROR_MESSAGE);
+                } else if (selectedCount <= 0) {
+                    JOptionPane.showMessageDialog(frame, "You have to select atleast 1 monster", "Selection Error",
+                            JOptionPane.ERROR_MESSAGE);
                     selectedMonsters.removeAll(selectedMonsters);
-                }else {
+                } else {
                     // Proses monster yang dipilih
                     new Dungeon(selectedMonsters);
                     System.out.println("Selected Monsters: " + selectedMonsters);
@@ -556,8 +568,21 @@ public class HomeBaseFrame extends JFrame {
         expBar.setValue((int) currentMonsterObj.getEp());
 
         // Mengganti gambar pada label1
-        ImageIcon imageIcon1 = new ImageIcon(currentMonsterObj.getImagePath());
-        label1.setIcon(imageIcon1);
+        ImageIcon profil = new ImageIcon(currentMonsterObj.getImagePath());
+        label1.setIcon(profil);
+    }
+    class BackgroundPanel extends JPanel {
+        private Image backgroundImage;
+
+        public BackgroundPanel(Image backgroundImage) {
+            this.backgroundImage = backgroundImage;
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
     }
 
     public static void main(String[] args) {

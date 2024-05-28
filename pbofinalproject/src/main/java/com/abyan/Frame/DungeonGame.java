@@ -37,7 +37,8 @@ public class DungeonGame extends JFrame {
     }
 
     private ImageIcon loadTreasureIcon() {
-        ImageIcon treasure = new ImageIcon("MonsterImage/MonsterApi.png");
+        ImageIcon treasure = new ImageIcon("Asset/Harta_Karun.png");
+        treasure = new ImageIcon(treasure.getImage().getScaledInstance(1000, 1000, Image.SCALE_DEFAULT));
         Image treasureImage = treasure.getImage();
         treasureImage = treasureImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         return new ImageIcon(treasureImage);
@@ -47,6 +48,11 @@ public class DungeonGame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
+
+        // Set the background image
+        String backgroundImagePath = "Asset/DungeonBackGround.png";
+        ImageIcon backgroundImage = new ImageIcon(backgroundImagePath);
+        BackgroundPanel backgroundPanel = new BackgroundPanel(backgroundImage.getImage());
 
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Options");
@@ -65,6 +71,7 @@ public class DungeonGame extends JFrame {
         setJMenuBar(menuBar);
 
         gamePanel = new JPanel(new GridLayout(10, 10));
+        gamePanel.setOpaque(false); // Make the panel transparent
         gridLabels = new JLabel[10][10];
         enemyMonster = new HashMap<>();
         treasureLabels = new HashMap<>();
@@ -81,7 +88,9 @@ public class DungeonGame extends JFrame {
             }
         }
 
-        add(gamePanel);
+        backgroundPanel.setLayout(new BorderLayout());
+        backgroundPanel.add(gamePanel, BorderLayout.CENTER);
+        add(backgroundPanel);
     }
 
     private void initGame() {
@@ -97,7 +106,9 @@ public class DungeonGame extends JFrame {
             }
             enemyMonster.put(location, dungeon.enemyMonsters.get(i));
             monsterLocations.add(location);
-            gridLabels[y][x].setIcon(new ImageIcon(dungeon.enemyMonsters.get(i).getImagePath()));
+            ImageIcon monsterImage = new ImageIcon(dungeon.enemyMonsters.get(i).getImagePath());
+            monsterImage = new ImageIcon(monsterImage.getImage().getScaledInstance(120, 120, Image.SCALE_DEFAULT));
+            gridLabels[y][x].setIcon(monsterImage);
         }
 
         for (int i = 0; i < 3; i++) {
@@ -240,5 +251,19 @@ public class DungeonGame extends JFrame {
         gridLabels[playerPosition.y][playerPosition.x].setIcon(null);
         playerPosition = treasurePosition;
         gridLabels[playerPosition.y][playerPosition.x].setIcon(playerIcon);
+    }
+
+    class BackgroundPanel extends JPanel {
+        private Image backgroundImage;
+
+        public BackgroundPanel(Image backgroundImage) {
+            this.backgroundImage = backgroundImage;
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
     }
 }
