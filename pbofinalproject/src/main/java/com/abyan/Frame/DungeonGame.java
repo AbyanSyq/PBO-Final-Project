@@ -1,9 +1,8 @@
 package com.abyan.Frame;
 
-import com.abyan.Manager.Player;
-import com.abyan.Object.Monster;
+import com.abyan.Manager.*;
+import com.abyan.Object.*;
 import com.abyan.Scene.*;
-//import com.abyan.Scene.FightingGame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +29,7 @@ public class DungeonGame extends JFrame {
 
     public DungeonGame(Dungeon dungeon) {
         this.dungeon = dungeon;
-        playerIcon = new ImageIcon(dungeon.monsters.get(0).getImagePath());
+        playerIcon = new ImageIcon(Player.profilPath);
         treasureIcon = loadTreasureIcon();
         initComponent();
         initGame();
@@ -49,7 +48,6 @@ public class DungeonGame extends JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
 
-        // Set the background image
         String backgroundImagePath = "Asset/DungeonBackGround.png";
         ImageIcon backgroundImage = new ImageIcon(backgroundImagePath);
         BackgroundPanel backgroundPanel = new BackgroundPanel(backgroundImage.getImage());
@@ -71,7 +69,7 @@ public class DungeonGame extends JFrame {
         setJMenuBar(menuBar);
 
         gamePanel = new JPanel(new GridLayout(10, 10));
-        gamePanel.setOpaque(false); // Make the panel transparent
+        gamePanel.setOpaque(false); 
         gridLabels = new JLabel[10][10];
         enemyMonster = new HashMap<>();
         treasureLabels = new HashMap<>();
@@ -172,7 +170,7 @@ public class DungeonGame extends JFrame {
             Monster monster = enemyMonster.get(newPlayerPosition);
             if (monster != null) {
                 startBattle(monster);
-                enemyMonster.remove(newPlayerPosition); // Hapus monster setelah memanggil startBattle
+                enemyMonster.remove(newPlayerPosition); 
                 monsterLocations.remove(newPlayerPosition);
                 gridLabels[newPlayerPosition.y][newPlayerPosition.x].setIcon(null);
                 dungeon.monsters.remove(monster);

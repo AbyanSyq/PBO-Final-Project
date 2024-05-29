@@ -1,28 +1,18 @@
 package com.abyan.Manager;
 
-
-import com.abyan.Frame.LoginFrame;
-import com.abyan.Manager.*;
 import com.abyan.Object.*;
-import com.abyan.Scene.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.sql.PseudoColumnUsage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 
-import javax.net.ssl.SNIHostName;
 
 public class GameManager {
     public static String fileMonster = null;
@@ -35,7 +25,6 @@ public class GameManager {
             System.out.println("Login successful. Welcome, " + username + "!");
             setFile(username);
             loadData();
-            saveData();
             loadPlayerData(username);
             return username;
         } else {
@@ -58,12 +47,13 @@ public class GameManager {
         Player.monsters.add(newMonster);
         setFile(username);
         saveAkun(dataAkun);
+        saveMonsters(Player.monsters);
         loadData();
-        saveData();
         loadPlayerData(username);
         return username;
     }
     public static void saveAkun(HashMap<String, String[]> userData) {
+        System.out.println("aiioudfhapisdufhaolisdufhalisdufhalsdufhlasiudhflaisudhflaiksujdhflaksjdhflkajsdhflkajshdf");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileAkun))) {
             writer.write("username,password,photoProfilePath,exp,heal Potion,damage potion\n"); // Menulis header
             for (String username : userData.keySet()) {
@@ -149,7 +139,6 @@ public class GameManager {
         dataAkun.put(Player.name, Player.data());
         saveAkun(dataAkun);
         saveMonsters(Player.monsters);
-        //saveItem(Player.items);
     }
     public static void loadData() {
         if ((checkFileExists(fileAkun))) { 
@@ -198,31 +187,5 @@ public class GameManager {
                 break;
         }
         return newMonster;
-    }
-
-
-    public static void main(String[] args) {
-        Scanner scan  = new Scanner(System.in);
-        //saveData();
-        setFile("abyan");
-        loadData();
-        System.out.println(dataAkun.size());
-        //signUp(scan);
-        login("abyan","123");
-
-        // Monster monster1 = monsterGen("Dragon", Element.AIR, 1, 150.5, 35.0, 50.0,0);
-        // Monster monster2 = monsterGen("yoga", Element.API, 1, 80.0, 15.0, 20.0,0);
-        // Player.monsters.add(monster1);
-        // Player.monsters.add(monster2);
- 
-        // Player.monsters.add(monsterGen("Dragon", Element.AIR, 1, 150.5, 35.0, 50.0));
-        // Player.monsters.add(monsterGen("Goblin", Element.API, 1, 80.0, 15.0, 20.0));
-
-        saveData();
-
-        //Player.monsters = loadMonsters();
-        for (Monster n : Player.monsters) {
-            System.out.println(n.toString());
-        }
     }
 }

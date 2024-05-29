@@ -1,7 +1,5 @@
 package com.abyan.Scene;
 import java.util.ArrayList;
-import java.util.Random;
-import javax.swing.*;
 
 import javax.swing.SwingUtilities;
 

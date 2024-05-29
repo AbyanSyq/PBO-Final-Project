@@ -1,58 +1,92 @@
 package com.abyan.Frame;
 
-import javax.swing.*;
-import com.abyan.Manager.Player;
-import com.abyan.Object.Item;
+import com.abyan.Manager.*;
+import com.abyan.Object.*;
 
+import javax.swing.*; 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class InventorySystem extends JFrame {
     private HomeBaseFrame homeBaseFrame;
 
-    // Components
     private JPanel gridPanel;
     private JPanel infoPanel;
-    private JTabbedPane categoryTabs;
     private JLabel itemDescription;
-    private JLabel itemImage; // Label to display item image
+    private JLabel itemImage; 
     private JButton[] itemSlots;
-    private JButton buyButton; // Button to buy item
+    private JButton buyButton;
+    private BufferedImage backgroundImage;
 
     public InventorySystem(HomeBaseFrame homeBaseFrame) {
         this.homeBaseFrame = homeBaseFrame;
         setTitle("Game Inventory System");
         setSize(800, 600);
-        setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Initialize components
+        loadBackgroundImage();
+
+        BackgroundPanel mainPanel = new BackgroundPanel(backgroundImage);
+        mainPanel.setLayout(new BorderLayout());
+
         gridPanel = new JPanel(new GridLayout(4, 5, 10, 10));
+        gridPanel.setOpaque(false); 
+
         infoPanel = new JPanel(new BorderLayout());
-        categoryTabs = new JTabbedPane();
+        infoPanel.setOpaque(false); 
+
         itemDescription = new JLabel("Select an item to see its description.");
-        itemImage = new JLabel(); // Initialize the label for item image
+        itemDescription.setOpaque(false); 
+        itemImage = new JLabel();
+        itemImage.setOpaque(false); 
         itemSlots = new JButton[Player.items.size()];
 
-        // Set up grid panel with item slots
+        Dimension buttonSize = new Dimension(100, 50); 
         for (int i = 0; i < Player.items.size(); i++) {
             itemSlots[i] = new JButton(Player.items.get(i).getName());
             itemSlots[i].setFocusable(false);
-            itemSlots[i].addActionListener(new ItemButtonListener(i)); // Pass the index to the listener
+            itemSlots[i].setPreferredSize(buttonSize);
+            itemSlots[i].setBackground(Color.BLACK); 
+            itemSlots[i].setForeground(Color.WHITE); 
+            itemSlots[i].setOpaque(true); 
+            itemSlots[i].setBorderPainted(false); 
+            itemSlots[i].addActionListener(new ItemButtonListener(i)); 
             gridPanel.add(itemSlots[i]);
         }
 
-        // Set up info panel
         infoPanel.add(itemDescription, BorderLayout.NORTH);
-        infoPanel.add(itemImage, BorderLayout.CENTER); // Add the label for item image to the info panel
+        infoPanel.add(itemImage, BorderLayout.CENTER); 
 
-        // Set up category tabs
-        categoryTabs.addTab("Potion", gridPanel);
-        add(categoryTabs, BorderLayout.CENTER);
-        add(infoPanel, BorderLayout.EAST);
+        mainPanel.add(gridPanel, BorderLayout.CENTER);
+        mainPanel.add(infoPanel, BorderLayout.EAST);
+
+        add(mainPanel);
+    }
+
+    private void loadBackgroundImage() {
+        try {
+            backgroundImage = ImageIO.read(new File("Asset/InventoryBackground.jpg")); 
+            backgroundImage = resizeImage(backgroundImage, 800, 600); 
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println("Error loading background image: " + e.getMessage());
+        }
+    }
+
+    private BufferedImage resizeImage(BufferedImage originalImage, int width, int height) {
+        BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, width, height, null);
+        g.dispose();
+        return resizedImage;
     }
 
     private class ItemButtonListener implements ActionListener {
-        private int index; // Store the index of the item
+        private int index; 
 
         public ItemButtonListener(int index) {
             this.index = index;
@@ -63,17 +97,18 @@ public class InventorySystem extends JFrame {
             Item item = Player.items.get(index);
             itemDescription.setText(item.getName());
 
-            // Update item image
             ImageIcon itemIcon = new ImageIcon(item.getImagePath());
             itemImage.setIcon(itemIcon);
 
-            // If the buy button exists, remove it before creating a new one
             if (buyButton != null) {
                 infoPanel.remove(buyButton);
             }
 
-            // Create and add the buy button
             buyButton = new JButton("Beli (" + item.getHarga() + ")");
+            buyButton.setBackground(Color.BLACK); 
+            buyButton.setForeground(Color.WHITE); 
+            buyButton.setOpaque(true); 
+            buyButton.setBorderPainted(false); 
             buyButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -81,22 +116,44 @@ public class InventorySystem extends JFrame {
                         JOptionPane.showMessageDialog(InventorySystem.this, "You bought " + item.getName() + " for " + item.getHarga());
                         if (item.getName().equalsIgnoreCase("Heal Potion")) {
                             Player.healPotion++;
-                            
                         } else if (item.getName().equalsIgnoreCase("Damage Potion")) {
                             Player.damagePotion++;
                         }
                         Player.ep -= item.getHarga();
                         homeBaseFrame.updateMonsterInfo();
-                    }else{
+                    } else {
                         JOptionPane.showMessageDialog(InventorySystem.this, "Ep tidak cukup");
                     }
-                    
-
                 }
             });
             infoPanel.add(buyButton, BorderLayout.SOUTH);
             infoPanel.revalidate();
             infoPanel.repaint();
         }
+    }
+
+    class BackgroundPanel extends JPanel {
+        private BufferedImage image;
+
+        public BackgroundPanel(BufferedImage image) {
+            this.image = image;
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (image != null) {
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new InventorySystem(new HomeBaseFrame()).setVisible(true);
+            }
+        });
     }
 }

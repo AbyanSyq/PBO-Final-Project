@@ -1,7 +1,5 @@
 username,password,photoProfilePath,exp,heal Potion,damage potion
-hasan,123,Asset\hasan.jpg,0,0,0
-abyan,123,Data_akun/defaultProfile.jpg,300,0,0
-toni,123,Data_akun/defaultProfile.jpg,0,0,0
-null,null,Data_Akun/defaultProfile.jpg,0,0,0
-null,null,Data_Akun/defaultProfile.jpg,0,0,0
-abyann,123,Data_akun/defaultProfile.jpg,0,0,0
+hasan,123,Asset/hasan.jpg,800,1,2
+abyan,123,Data_akun/defaultProfile.jpg,0,0,0
+,,Data_akun/defaultProfile.jpg,0,0,0
+exel,123,Data_akun/defaultProfile.jpg,0,0,0

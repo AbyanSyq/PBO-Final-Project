@@ -2,18 +2,11 @@ package com.abyan.Scene;
 
 import com.abyan.Manager.*;
 import com.abyan.Object.*;
-import com.abyan.Scene.*;
-
-import java.util.*;
 
 public class GameHomebase  {
     public GameHomebase(){
         
     }
-    public static Monster pickMonster(String name) {
-        return null;
-    }
-
     public static void storeMonster(Monster monster) {
         Player.monsters.add(monster);
     }
@@ -60,10 +53,4 @@ public class GameHomebase  {
                 throw new GameException("Evolusi tidak berhasil");
         }
     }
-
-    public static void enterDungeon(Monster monster0,Monster monster1,Monster monster2) {
-
-        // Memasuki dungeon dengan sudah memilih monster
-    }
-
 }

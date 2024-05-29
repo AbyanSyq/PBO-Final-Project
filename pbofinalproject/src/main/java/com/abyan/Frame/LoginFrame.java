@@ -32,10 +32,22 @@ public class LoginFrame extends JFrame {
             backgroundImage = ImageIO.read(new File("Asset/LoginBackground.png"));
             loginButtonImage = ImageIO.read(new File("Asset/login.png"));
             newAccountButtonImage = ImageIO.read(new File("Asset/signUp.png"));
+
+            backgroundImage = resizeImage(backgroundImage, 1920, 1080); 
+            loginButtonImage = resizeImage(loginButtonImage, 200, 80); 
+            newAccountButtonImage = resizeImage(newAccountButtonImage, 200, 80);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error loading images: " + e.getMessage());
         }
+    }
+
+    private BufferedImage resizeImage(BufferedImage originalImage, int width, int height) {
+        BufferedImage resizedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, width, height, null);
+        g.dispose();
+        return resizedImage;
     }
 
     private void initComponent() {
@@ -48,14 +60,11 @@ public class LoginFrame extends JFrame {
         JButton loginButton = new JButton("");
         JButton newAccountButton = new JButton("");
 
-        // Mengubah ukuran tulisan pada tombol
         Font buttonFont = new Font("Arial", Font.BOLD, 18);
         loginButton.setFont(buttonFont);
         newAccountButton.setFont(buttonFont);
 
-        // Mengubah visual tombol dengan gambar
         if (loginButtonImage != null) {
-
             loginButton.setIcon(new ImageIcon(loginButtonImage));
             loginButton.setContentAreaFilled(false);
             loginButton.setBorderPainted(false);
@@ -66,7 +75,6 @@ public class LoginFrame extends JFrame {
             newAccountButton.setBorderPainted(false);
         }
 
-        // Mengubah tampilan text field
         Font textFieldFont = new Font("Arial", Font.PLAIN, 16);
         usernameField.setFont(textFieldFont);
         passwordField.setFont(textFieldFont);

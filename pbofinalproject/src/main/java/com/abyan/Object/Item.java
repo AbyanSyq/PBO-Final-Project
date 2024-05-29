@@ -1,7 +1,4 @@
 package com.abyan.Object;
-import com.abyan.Manager.*;
-import com.abyan.Object.*;
-import com.abyan.Scene.*;
 
 abstract class ItemBluePrint {
     private String name;
@@ -17,7 +14,7 @@ public class Item extends ItemBluePrint {
     protected double healAmount;
     protected double damageAmount;
     protected double harga = 50;
-    private String imagePath; // Path to the item's image
+    private String imagePath; 
 
     public Item(String name, double healAmount, double damageAmount, String imagePath) {
         this.name = name;

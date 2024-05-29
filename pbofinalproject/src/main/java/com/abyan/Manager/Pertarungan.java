@@ -1,6 +1,5 @@
 package com.abyan.Manager;
 import com.abyan.Object.*;
-import com.abyan.Scene.*;
 
 public interface Pertarungan {
     public double basicAttack(Monster monster);

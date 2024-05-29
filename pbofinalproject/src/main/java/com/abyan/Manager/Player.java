@@ -1,12 +1,8 @@
 package com.abyan.Manager;
 
-import com.abyan.Manager.*;
 import com.abyan.Object.*;
-import com.abyan.Scene.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 
 public class Player {
     public static String name;
@@ -23,13 +19,12 @@ public class Player {
         String[] s = {password,profilPath,Integer.toString(ep),Integer.toString(healPotion),Integer.toString(damagePotion)};
         return s;
     }
-    
 
     public static String playerInfo(){
-        return "name                                                =" + name + '\n' +
-                "Ep                                                 =" + ep +'\n' +
-                "Heal Potion                                        =" + healPotion +'\n' +
-                "Damage Potion(increse your monster damage)         =" + damagePotion +'\n'
+        return "name = " + name + '\n' +
+                "Ep = " + ep +'\n' +
+                "Heal Potion = " + healPotion +'\n' +
+                "Damage Potion(increse your monster damage) = " + damagePotion +'\n'
                 ;
     }
 }

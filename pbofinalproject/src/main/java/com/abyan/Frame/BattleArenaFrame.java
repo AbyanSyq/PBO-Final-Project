@@ -1,8 +1,8 @@
 package com.abyan.Frame;
 
-import com.abyan.Manager.Player;
+import com.abyan.Manager.*;
 import com.abyan.Object.*;
-import com.abyan.Scene.BattleArena;
+import com.abyan.Scene.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +15,7 @@ public class BattleArenaFrame {
     private BattleArena battleArena;
     private JButton normalAttackButton;
     private JButton specialAttackButton;
-    private JButton elementAttackButton; // New button for Element Attack
+    private JButton elementAttackButton;
     private JButton usePotionButton;
     private JButton surrenderButton;
     private JProgressBar playerHPBar;
@@ -33,7 +33,6 @@ public class BattleArenaFrame {
         frame.setSize(1600, 900);
         frame.setLayout(new GridBagLayout());
 
-        // Set the background image
         ImagePanel backgroundPanel = new ImagePanel("Asset/Background.jpg");
         backgroundPanel.setLayout(new GridBagLayout());
         frame.setContentPane(backgroundPanel);
@@ -48,9 +47,9 @@ public class BattleArenaFrame {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
 
-        // Player Stats Panel
+   
         JPanel playerStatsPanel = new JPanel(new GridLayout(2, 1));
-        playerStatsPanel.setOpaque(false); // Make panel transparent
+        playerStatsPanel.setOpaque(false);
         playerStatsPanel.add(createHPBar(battleArena.playerMonster, "Player"));
         playerStatsPanel.add(createMPBar(battleArena.playerMonster, "Player"));
         gbc.gridx = 0;
@@ -58,23 +57,20 @@ public class BattleArenaFrame {
         gbc.gridheight = 1;
         frame.add(playerStatsPanel, gbc);
 
-        // Enemy Stats Panel
         JPanel enemyStatsPanel = new JPanel(new GridLayout(2, 1));
-        enemyStatsPanel.setOpaque(false); // Make panel transparent
+        enemyStatsPanel.setOpaque(false);
         enemyStatsPanel.add(createHPBar(battleArena.enemyMonster, "Enemy"));
         enemyStatsPanel.add(createMPBar(battleArena.enemyMonster, "Enemy"));
         gbc.gridx = 2;
         gbc.gridy = 0;
         frame.add(enemyStatsPanel, gbc);
 
-        // Player Image
         playerImageLabel = new JLabel(new ImageIcon(battleArena.playerMonster.getImagePath()));
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridheight = 2;
         frame.add(playerImageLabel, gbc);
 
-        // VS Label
         JLabel vsLabel = new JLabel("VS");
         vsLabel.setHorizontalAlignment(SwingConstants.CENTER);
         vsLabel.setFont(new Font("Arial", Font.BOLD, 48));
@@ -83,16 +79,14 @@ public class BattleArenaFrame {
         gbc.gridheight = 1;
         frame.add(vsLabel, gbc);
 
-        // Enemy Image
         enemyImageLabel = new JLabel(new ImageIcon(battleArena.enemyMonster.getImagePath()));
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.gridheight = 2;
         frame.add(enemyImageLabel, gbc);
 
-        // Buttons Panel
-        JPanel buttonsPanel = new JPanel(new GridLayout(1, 5)); // Update grid layout to 1x5 for the new button
-        buttonsPanel.setOpaque(false); // Make panel transparent
+        JPanel buttonsPanel = new JPanel(new GridLayout(1, 5)); 
+        buttonsPanel.setOpaque(false);
         normalAttackButton = new JButton("Normal Attack");
         normalAttackButton.addActionListener(new ActionListener() {
             @Override
@@ -111,7 +105,7 @@ public class BattleArenaFrame {
         });
         buttonsPanel.add(specialAttackButton);
 
-        elementAttackButton = new JButton("Element Attack"); // New button for Element Attack
+        elementAttackButton = new JButton("Element Attack");
         elementAttackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -134,7 +128,7 @@ public class BattleArenaFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 battleArena.playerTurn(0);
-                System.out.println("You surrendered!");
+                System.out.println("anda berhasil kabur");
             }
         });
         buttonsPanel.add(surrenderButton);
@@ -147,6 +141,9 @@ public class BattleArenaFrame {
 
     private JPanel createHPBar(Monster monster, String name) {
         JProgressBar bar = new JProgressBar();
+
+        bar.setForeground(Color.GREEN);
+        
         bar.setMinimum(0);
         bar.setMaximum((int) monster.getMaksHp());
         bar.setValue((int) monster.getHp());
@@ -158,7 +155,7 @@ public class BattleArenaFrame {
         panel.setLayout(new FlowLayout(FlowLayout.LEFT));
         panel.add(nameLabel);
         panel.add(bar);
-        panel.setOpaque(false); // Make panel transparent
+        panel.setOpaque(false); 
 
         if (name.equals("Player")) {
             playerHPBar = bar;
@@ -171,6 +168,7 @@ public class BattleArenaFrame {
 
     private JPanel createMPBar(Monster monster, String name) {
         JProgressBar bar = new JProgressBar();
+        bar.setForeground(Color.BLUE);
         bar.setMinimum(0);
         bar.setMaximum((int) monster.getMaksMp());
         bar.setValue((int) monster.getMp());
@@ -182,7 +180,7 @@ public class BattleArenaFrame {
         panel.setLayout(new FlowLayout(FlowLayout.LEFT));
         panel.add(nameLabel);
         panel.add(bar);
-        panel.setOpaque(false); // Make panel transparent
+        panel.setOpaque(false);
 
         if (name.equals("Player")) {
             playerMPBar = bar;
@@ -269,10 +267,9 @@ public class BattleArenaFrame {
 
     public void exit() {
         frame.dispose();
-        // System.exit(0);
+
     }
 
-    // Custom JPanel class to paint the background image
     class ImagePanel extends JPanel {
         private Image backgroundImage;
 

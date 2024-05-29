@@ -2,18 +2,12 @@ package com.abyan.Frame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 
-import com.abyan.Manager.Element;
-import com.abyan.Manager.GameManager;
-import com.abyan.Manager.Player;
+import com.abyan.Manager.*;
 import com.abyan.Object.*;
-import com.abyan.Scene.Dungeon;
-import com.abyan.Scene.GameHomebase;
+import com.abyan.Scene.*;
 
 public class HomeBaseFrame extends JFrame {
     private int currentMonster = 0;
@@ -31,7 +25,6 @@ public class HomeBaseFrame extends JFrame {
 
     public HomeBaseFrame() {
         thisClass = this;
-        // super("");
         initComponent();
     }
 
@@ -52,20 +45,17 @@ public class HomeBaseFrame extends JFrame {
         label1.setBounds(50, 80, 50, 20);
         add(label1);
 
-        // Mengubah label2 menjadi label kustom dengan gambar
         ImageIcon imageIcon2 = new ImageIcon(Player.profilPath);
         JLabel label2 = new JLabel(imageIcon2);
         label2.setBounds(50, 20, 100, 100);
         add(label2);
 
-        // Membuat textarea dalam scrollpane untuk pesan
         textArea1 = new JTextArea(Player.playerInfo());
         textArea1.setEditable(false);
         textArea1.setFont(font);
         JScrollPane scrollPane1 = new JScrollPane(textArea1);
         add(scrollPane1);
 
-        // Info monster
         JLabel pokeNameLabel = new JLabel("Name");
         pokeNameLabel.setFont(font);
         add(pokeNameLabel);
@@ -98,7 +88,6 @@ public class HomeBaseFrame extends JFrame {
         pokeEvolve.setFont(font);
         add(pokeEvolve);
 
-        // Membuat bar untuk kesehatan, damage, magic point, dan exp
         healthBar = new JProgressBar(0, 2000);
         healthBar.setStringPainted(true);
         healthBar.setForeground(Color.green);
@@ -126,15 +115,13 @@ public class HomeBaseFrame extends JFrame {
         JLabel expInfo = new JLabel("EXP");
         add(expInfo);
         add(expBar);
-
-        // Membuat tombol
         JButton button1 = new JButton("Prev");
         JButton button2 = new JButton("Next");
         JButton button3 = new JButton("Level Up");
         JButton button4 = new JButton("Enter Dungeon");
         JButton button5 = new JButton("Revive all mosnter");
         JButton button6 = new JButton("Evolve");
-        JButton button7 = new JButton("jButton7");
+        JButton button7 = new JButton("Item Store");
         JButton button8 = new JButton("Save");
 
         add(button1);
@@ -146,7 +133,6 @@ public class HomeBaseFrame extends JFrame {
         add(button7);
         add(button8);
 
-        // Menambahkan ActionListener ke setiap tombol
         button1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 setCurrentMonster(-1);
@@ -189,6 +175,7 @@ public class HomeBaseFrame extends JFrame {
                     monster.heal(999999999);
                     monster.setMp(999999999);
                 }
+                JOptionPane.showMessageDialog(HomeBaseFrame.this, "Sip sehat semua");
             }
         });
 
@@ -213,7 +200,6 @@ public class HomeBaseFrame extends JFrame {
             }
         });
 
-        // Menambahkan teks secara otomatis saat frame ditampilkan
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
@@ -222,17 +208,14 @@ public class HomeBaseFrame extends JFrame {
             }
         });
 
-        // Mengatur ulang posisi dan ukuran komponen saat ukuran jendela berubah
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 int width = getWidth();
                 int height = getHeight();
 
-                // Mengatur posisi dan ukuran label
                 label1.setBounds(300, 190, 500, 460);
                 label2.setBounds(50, 20, 150, 150);
 
-                // Mengatur posisi dan ukuran scrollpane
                 scrollPane1.setBounds(210, 20, width - 220, 150);
 
                 pokeNameLabel.setBounds(900, 200, 200, 30);
@@ -247,7 +230,6 @@ public class HomeBaseFrame extends JFrame {
                 pokeEvolveLabel.setBounds(900, 320, 200, 30);
                 pokeEvolve.setBounds(1100, 320, 200, 30);
 
-                // Mengatur posisi dan ukuran progress bar
                 healthInfo.setBounds(900, 360, 200, 30);
                 healthBar.setBounds(1100, 360, 400, 30);
 
@@ -260,7 +242,6 @@ public class HomeBaseFrame extends JFrame {
                 expInfo.setBounds(900, 480, 200, 30);
                 expBar.setBounds(1100, 480, 400, 30);
 
-                // Mengatur posisi dan ukuran tombol
                 button4.setBounds(50, 300, 150, 50);
                 button7.setBounds(50, 370, 150, 50);
                 button5.setBounds(50, 440, 150, 50);
@@ -273,7 +254,6 @@ public class HomeBaseFrame extends JFrame {
         });
     
         backgroundPanel.setLayout(new BorderLayout());
-        //backgroundPanel.add(this, BorderLayout.CENTER);
         add(backgroundPanel);
         setSize(1920, 1080);
         setVisible(true);
@@ -292,7 +272,6 @@ public class HomeBaseFrame extends JFrame {
         panel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
-        // Masukan EP
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.insets = new Insets(5, 5, 5, 5);
@@ -301,15 +280,12 @@ public class HomeBaseFrame extends JFrame {
         constraints.gridx = 1;
         panel.add(epField, constraints);
 
-        // Total EP anda
         constraints.gridx = 0;
         constraints.gridy = 1;
-        constraints.gridwidth = 2; // Mengatur gridwidth menjadi 2 untuk menggabungkan dua kolom
+        constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
         panel.add(infoEpLabel, constraints);
-        constraints.gridwidth = 1; // Mengatur gridwidth menjadi 2 untuk menggabungkan dua kolom
-
-        // Buttons
+        constraints.gridwidth = 1; 
         constraints.gridx = 0;
         constraints.gridy = 2;
         panel.add(cancelButton, constraints);
@@ -321,7 +297,7 @@ public class HomeBaseFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int ep = Integer.parseInt(epField.getText());///// exception
+                    int ep = Integer.parseInt(epField.getText());
                     int playerEp = GameHomebase.levelUpMonster(currentMonster, ep);
                     if (playerEp >= 0) {
                         epLabel.setText("Level Up succes");
@@ -330,7 +306,6 @@ public class HomeBaseFrame extends JFrame {
                     } else {
                         infoEpLabel.setText("Your Ep is not enough");
                     }
-                    // GameManager.saveData();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(frame, "Please enter a valid number.", "Error",
                             JOptionPane.ERROR_MESSAGE);
@@ -366,7 +341,6 @@ public class HomeBaseFrame extends JFrame {
         JButton okButton = new JButton("Ok");
         JButton cancelButton = new JButton("Cancel");
 
-        // Button group for radio buttons
         ButtonGroup group = new ButtonGroup();
         group.add(apiButton);
         group.add(tanahButton);
@@ -377,14 +351,12 @@ public class HomeBaseFrame extends JFrame {
         panel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
-        // Pilih Element Label
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.insets = new Insets(5, 5, 5, 5);
         constraints.anchor = GridBagConstraints.CENTER;
         panel.add(elementLabel, constraints);
 
-        // Radio Buttons
         constraints.anchor = GridBagConstraints.LINE_START;
         constraints.gridy = 1;
         panel.add(apiButton, constraints);
@@ -401,7 +373,6 @@ public class HomeBaseFrame extends JFrame {
         constraints.gridy = 5;
         panel.add(esButton, constraints);
 
-        // Total EP anda
         constraints.gridx = 0;
         constraints.gridy = 6;
         constraints.gridwidth = 2;
@@ -409,7 +380,6 @@ public class HomeBaseFrame extends JFrame {
         panel.add(infoEvolveLabel, constraints);
         constraints.gridwidth = 1;
 
-        // Buttons
         constraints.gridy = 7;
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.LINE_END;
@@ -471,7 +441,6 @@ public class HomeBaseFrame extends JFrame {
         JPanel checkBoxPanel = new JPanel();
         checkBoxPanel.setLayout(new GridLayout(Player.monsters.size(), 1));
 
-        // Membuat checkbox untuk setiap monster
         JCheckBox[] checkBoxes = new JCheckBox[Player.monsters.size()];
         for (int i = 0; i < Player.monsters.size(); i++) {
             checkBoxes[i] = new JCheckBox((i + 1) + ", " + Player.monsters.get(i).getName() + "("
@@ -479,7 +448,6 @@ public class HomeBaseFrame extends JFrame {
             checkBoxPanel.add(checkBoxes[i]);
         }
 
-        // Membuat panel untuk tombol
         JPanel buttonPanel = new JPanel();
         JButton okButton = new JButton("OK");
         JButton cancelButton = new JButton("Cancel");
@@ -487,13 +455,11 @@ public class HomeBaseFrame extends JFrame {
         buttonPanel.add(okButton);
         buttonPanel.add(cancelButton);
 
-        // Menambahkan panel checkbox dan panel tombol ke frame
         frame.add(checkBoxPanel, BorderLayout.CENTER);
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
         ArrayList<Monster> selectedMonsters = new ArrayList<>();
 
-        // Menambahkan action listener untuk tombol OK
         okButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -516,7 +482,6 @@ public class HomeBaseFrame extends JFrame {
                             JOptionPane.ERROR_MESSAGE);
                     selectedMonsters.removeAll(selectedMonsters);
                 } else {
-                    // Proses monster yang dipilih
                     new Dungeon(selectedMonsters);
                     System.out.println("Selected Monsters: " + selectedMonsters);
                     frame.setVisible(false);
@@ -525,7 +490,6 @@ public class HomeBaseFrame extends JFrame {
             }
         });
 
-        // Menambahkan action listener untuk tombol Cancel
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -567,7 +531,6 @@ public class HomeBaseFrame extends JFrame {
         mpBar.setValue((int) currentMonsterObj.getMaksMp());
         expBar.setValue((int) currentMonsterObj.getEp());
 
-        // Mengganti gambar pada label1
         ImageIcon profil = new ImageIcon(currentMonsterObj.getImagePath());
         label1.setIcon(profil);
     }

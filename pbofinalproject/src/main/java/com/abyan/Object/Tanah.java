@@ -1,7 +1,5 @@
 package com.abyan.Object;
 import com.abyan.Manager.*;
-import com.abyan.Object.*;
-import com.abyan.Scene.*;
 
 
 public class Tanah extends Monster {

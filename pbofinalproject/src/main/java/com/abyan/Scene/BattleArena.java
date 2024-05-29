@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import com.abyan.Frame.BattleArenaFrame;
 import com.abyan.Manager.*;
 import com.abyan.Object.*;
-import com.abyan.Scene.*;
 
 public class BattleArena {
     public Dungeon dungeon;
@@ -24,7 +23,7 @@ public class BattleArena {
     }
 
     public void enemyTurn() {
-        int action = GameManager.randomNum(0, 2); // Randomly select an action: 0 = basic, 1 = special, 2 = element
+        int action = GameManager.randomNum(0, 2); 
         double oldHp = playerMonster.getHp();
         String actionName = "";
 

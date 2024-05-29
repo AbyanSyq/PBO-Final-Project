@@ -1,10 +1,5 @@
 package com.abyan.Object;
 import com.abyan.Manager.*;
-import com.abyan.Object.*;
-import com.abyan.Scene.*;
-import com.abyan.Scene.*;
-import java.util.*;
-
 public class Monster implements Pertarungan{
     private String name;
     protected Element element;
@@ -40,7 +35,7 @@ public class Monster implements Pertarungan{
         this.ep = ep;
     }
     
-    public void setByLV(int n) {//increase base artibut if level up
+    public void setByLV(int n) {
         this.maksHp = maksHp + (defaultmaksHp * n);
         this.baseDamage = baseDamage + (defaultbaseDamage/2 * n);
         this.maksMp = maksMp +  (defaultmaksMp/2 * n);
